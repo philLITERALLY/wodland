@@ -9,8 +9,8 @@ function App() {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/WODs/New-WOD">Add WOD</Nav.Link>
-            <Nav.Link href="/WODs/Search-WODs">Search WODs</Nav.Link>
+            <Nav.Link href="/Add-WOD">Add WOD</Nav.Link>
+            <Nav.Link href="/Search-WODs">Search WODs</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href="/Diary">Diary</Nav.Link>

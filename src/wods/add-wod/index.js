@@ -84,6 +84,12 @@ class NewWOD extends React.Component {
                             </div>
                         </Form.Group>
                 
+                        <Form.Group controlId="score">
+                            <Form.Label>Score</Form.Label>
+                            <Form.Control type="text" />
+                            <Form.Text className="text-muted">Rounds + reps?</Form.Text>
+                        </Form.Group>
+                
                         <Form.Group controlId="meps">
                             <Form.Label>MEPs</Form.Label>
                             <Form.Control type="text" />
