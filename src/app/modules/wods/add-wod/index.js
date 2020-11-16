@@ -1,12 +1,21 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Accordion, Card, Form, Button } from 'react-bootstrap';
+import _ from 'lodash';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as actionCreators from '../../../actions';
 
 import './new-wod.css';
 
 class NewWOD extends React.Component {
     constructor(props) {
-    super(props);
+        super(props);
+
         this.state = { effortVal: undefined };
+
+        _.bindAll(this, 'saveWOD');
     }
 
     saveWOD(event) {
@@ -139,6 +148,19 @@ class NewWOD extends React.Component {
     }
 }
 
-NewWOD.propTypes = { };
+NewWOD.propTypes = {
+    location: PropTypes.object,
+    login: PropTypes.func,
+    error: PropTypes.string,
+    reset: PropTypes.func,
+};
 
-export default NewWOD;
+NewWOD.contextTypes = {
+    t: PropTypes.func,
+    router: PropTypes.object,
+};
+
+export default connect(
+    null,
+    dispatch => bindActionCreators(actionCreators, dispatch),
+)(NewWOD);
