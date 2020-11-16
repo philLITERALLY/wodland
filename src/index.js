@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App/App';
-import * as serviceWorkerRegistration from './Utils/serviceWorkerRegistration';
-import reportWebVitals from './Utils/reportWebVitals';
+import App from './containers/app/App';
+import * as serviceWorkerRegistration from './utils/serviceWorkerRegistration';
+import reportWebVitals from './utils/reportWebVitals';
 
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
