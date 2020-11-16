@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import Login from '../login'
 import Navbar from '../navbar'
 import AddWOD from '../wods/add-wod';
 import SearchWODs from '../wods/search-wods';
@@ -23,7 +22,6 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Route exact path="/login" component={Login}/>
         <div>
           <Navbar />
           <Route exact path="/" component={CurrentTasks}/>
