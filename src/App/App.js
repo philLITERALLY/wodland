@@ -1,28 +1,21 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import Navbar from './navbar'
-import AddWOD from './wods/add-wod';
-import SearchWODs from './wods/search-wods';
-import Diary from './diary';
+import Navbar from '../Navbar'
+import AddWOD from '../WODs/add-wod';
+import SearchWODs from '../WODs/search-wods';
+import Diary from '../Diary';
 
 import './App.css';
 
-const Template = (props) => (
-  <div>
-    <p className="page-info">
-      {props.title}:
-    </p>
-    <ul className={props.status}>
-        <li>Task 1</li>
-        <li>Task 2</li>
-        <li>Task 3</li>
-    </ul>
-  </div>
-);
-
 const CurrentTasks = () => (
-  <Template title="Current Tasks" status="Current"/>
+  <div>
+    <div>
+      <h1>Hey TWat</h1>
+      <p>WODs this week: 2</p>
+      <p>MEPs this week: 20</p>
+    </div>
+  </div>
 );
 
 class App extends Component {

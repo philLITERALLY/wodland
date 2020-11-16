@@ -2,50 +2,56 @@ import React, { Component } from 'react';
 import DayPicker from 'react-day-picker';
 
 import 'react-day-picker/lib/style.css';
+import './diary.css';
 
 class Diary extends Component {
   constructor(props) {
     super(props);
-    this.state = { selectedDay: new Date() };
+
+    const today = new Date();
+    var wods = [];
+    for (var i = 0; i < 5; i++) {
+        wods.push(this.randomDate(new Date(today.getFullYear(), today.getMonth(), 1), today))
+    } 
+
+    this.state = { selectedDay: today, wods };
   }
 
-    render() {
-      const modifiers = {
-        thursdays: { daysOfWeek: [4] },
-        birthday: new Date(2018, 9, 30),
-        selectedDay: this.state.selectedDay,
-      };
+  randomDate(start, end) {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+  }
 
-      const modifiersStyles = {
-        thursdays: {
-          color: '#ffc107',
-          backgroundColor: '#fffdee',
-        },
-        selectedDay: {
-          color: 'green',
-          backgroundColor: '#fffdee',
-        }
-      };
+  render() {
+    const modifiers = {
+      wods: this.state.wods,
+      selectedDay: this.state.selectedDay,
+    };
 
-      return (
-        <div>
-          <div>
-            <DayPicker
-              month={new Date()}
-              modifiers={modifiers}
-              modifiersStyles={modifiersStyles}
-              disabledDays={{ after: new Date() }}
-              onDayClick={(day, modifiers, e) => this.setState({ selectedDay: day })}
-            />
-          </div>
-          <hr />
-          <div>
-            <span>{this.state.selectedDay.toDateString()}</span>
-            <span>WODs</span>
-          </div>
+    const modifiersStyles = {
+      wods: { color: '#E76F51' },
+      selectedDay: { color: '#264653', backgroundColor: '#2A9D8F' }
+    };
+
+    return (
+      <div>
+        <div style={{ margin: 'auto', width: 'fit-content' }}>
+          <DayPicker
+            month={new Date()}
+            modifiers={modifiers}
+            modifiersStyles={modifiersStyles}
+            disabledDays={{ after: new Date() }}
+            onDayClick={(day) => this.setState({ selectedDay: day })}
+            todayButton="Go to Today"
+          />
         </div>
-      );
-    }
+        <hr />
+        <div>
+          <span>{this.state.selectedDay.toDateString()}</span>
+          <span>WODs</span>
+        </div>
+      </div>
+    );
   }
+}
   
-  export default Diary;
+export default Diary;
