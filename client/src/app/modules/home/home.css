@@ -1,0 +1,8 @@
+.DayPicker-Footer {
+    margin: auto;
+    width: fit-content;
+}
+
+a.nav-link.active {
+	background-color: rgba(0, 0, 0, 0.03) !important;
+}

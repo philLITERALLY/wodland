@@ -1,0 +1,59 @@
+/* From WODify */
+.component_wrapper, .wod_wrapper {
+	word-wrap: break-word;
+}
+
+.wod_header {
+	font-weight: bold;
+	text-transform: uppercase;
+	word-wrap: break-word;
+	color: #cc2626;
+}
+
+.wod_comment {
+	font-style: italic;
+}
+
+.section_title {
+	font-weight: bold;
+	word-wrap: break-word;
+}
+
+.component_show_wrapper {
+	padding-left: 20px;
+	line-height: 1.2em;
+}
+
+.component_name {
+	font-weight: bold;
+	color: #cc2626;
+	word-wrap: break-word;
+}
+
+.component_comment {
+	font-style: italic;
+	color: #aaaaaa;
+	margin-top: 5px;
+}
+
+/* From wodbase girls */
+.et_pb_blurb_content {
+	word-wrap: break-word;
+}
+
+.et_pb_blurb_container >.et_pb_module_header {
+	font-weight: bold;
+    word-wrap: break-word;
+    font-size: 1rem;
+}
+
+.et_pb_blurb_description {
+	padding-left: 20px;
+	line-height: 1.2em;
+}
+
+.et_pb_blurb_description >.wod-type {
+	font-weight: bold;
+	color: #cc2626;
+	word-wrap: break-word;
+}

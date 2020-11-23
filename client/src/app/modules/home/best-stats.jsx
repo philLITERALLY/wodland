@@ -1,0 +1,120 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Card } from 'react-bootstrap';
+import _ from 'lodash';
+import { useForm } from "react-hook-form";
+import moment from 'moment';
+import { VictoryChart, VictoryTheme, VictoryContainer, VictoryAxis, VictoryLine } from 'victory';
+
+import { RangeValuesOpts, RangeTypeOpts } from '../../constants';
+import { DropDown } from '../shared/forms';
+import { secondsToString, weekYearToDateFormat } from '../../utils/helpers';
+
+function BestStats(props) {
+    const { selectedTab, weeklyStats } = props;
+    const { register, watch } = useForm({ defaultValues: { rangeValue: "6", rangeType: "weeks" }});
+
+    const tickValue = parseInt(watch('rangeValue')); // how many weeks/months
+    const tick = watch('rangeType'); // weeks/months
+
+    let cardContent;
+    let chartData = [];
+    let tickFormat = (tick) => `${Math.round(tick)}`;
+    const week = moment().subtract(tickValue - 1, tick).startOf('isoweek');
+    switch(selectedTab) {
+        case 'WODs':
+            const mostWODs = _.maxBy(weeklyStats, 'wods');
+            cardContent = (
+                <div style={{ display: 'grid' }}>
+                <b>Most WODs in a Week</b>
+                {`${mostWODs.wods} (${weekYearToDateFormat(mostWODs.week, mostWODs.year)})`}
+                </div>
+            );
+
+            for (; week <= moment(); week.add(1, 'week')) {
+                const value = _.find(weeklyStats, { week: week.week(), year: week.year() });
+                chartData.push({ x: week.toDate(), y: (value && value.wods) || 0 });
+            }
+
+            break;
+        case 'Time':
+            const mostTime = _.maxBy(weeklyStats, 'timeTaken');
+            cardContent = (
+                <div style={{ display: 'grid' }}>
+                <b>Most Time in a Week</b>
+                {`${secondsToString(mostTime.timeTaken)} (${weekYearToDateFormat(mostTime.week, mostTime.year)})`}
+                </div>
+            );
+
+            for (; week <= moment(); week.add(1, 'week')) {
+                const value = _.find(weeklyStats, { week: week.week(), year: week.year() });
+                chartData.push({ x: week.toDate(), y: (value && value.timeTaken / 60) || 0 });
+            }
+
+            tickFormat = (tick) => `${Math.round(tick)}\nmins`;
+            break;
+        case 'MEPs':
+            const mostMeps = _.maxBy(weeklyStats, 'meps');
+            cardContent = (
+                <div style={{ display: 'grid' }}>
+                <b>Most MEPs in a Week</b>
+                {`${mostMeps.meps} (${weekYearToDateFormat(mostMeps.week, mostMeps.year)})`}            
+                </div>
+            );
+
+            for (; week <= moment(); week.add(1, 'week')) {
+                const value = _.find(weeklyStats, { week: week.week(), year: week.year() });
+                chartData.push({ x: week.toDate(), y: (value && value.meps) || 0 });
+            }
+
+            break;
+        default:
+            cardContent = 'Error?!';
+            break;
+    }
+
+    return (
+        <Card style={{ borderTop: '0' }}>
+            <Card.Header>
+                { cardContent }
+            </Card.Header>
+            <div style={{ display: 'flex', padding: '1rem' }}>
+                <VictoryChart 
+                    theme={VictoryTheme.material}
+                    scale={{ x: "time" }}
+                    containerComponent={
+                        <VictoryContainer
+                            style={{ pointerEvents: "auto", userSelect: "auto", touchAction: "auto" }}
+                        />
+                    }
+                >
+                    <VictoryAxis tickCount={3}/>
+                    <VictoryAxis dependentAxis tickCount={5} tickFormat={tickFormat} />
+                    <VictoryLine
+                        style={{ data: { stroke: "#c43a31" }, parent: { border: "1px solid #ccc"} }}
+                        animate={{ duration: 1000, onLoad: { duration: 1000 } }}
+                        data={chartData}
+                        interpolation="monotoneX"
+                    />
+                </VictoryChart>
+            </div>
+            <Card.Footer>
+                <div style={{ display: 'flex' }}>                    
+                    <div style={{ width: '50%', paddingRight: '5px' }}>
+                        { DropDown(register, '', 'rangeValue', RangeValuesOpts) }
+                    </div>                   
+                    <div style={{ width: '50%', paddingLeft: '5px' }}>
+                        { DropDown(register, '', 'rangeType', RangeTypeOpts) }
+                    </div>
+                </div>
+            </Card.Footer>
+        </Card>
+    ) 
+}
+
+BestStats.propTypes = { 
+    selectedTab: PropTypes.string.isRequired,
+    weeklyStats: PropTypes.array.isRequired,
+};
+
+export default BestStats;

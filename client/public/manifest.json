@@ -1,0 +1,49 @@
+{
+  "short_name": "WOD Land",
+  "name": "WOD Land - WOD Tracker",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "theme_color": "#343a40",
+  "background_color": "#343a40",
+  "display": "standalone",
+  "scope": "/",
+  "shortcuts": [
+    {
+      "name": "Add a WOD",
+      "short_name": "WOD",
+      "description": "Add details of a WOD",
+      "url": "/add-wod",
+      "icons": [{ "src": "add-wod.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Search WODs",
+      "short_name": "WODs",
+      "description": "Search for a specific wod",
+      "url": "/search-wods",
+      "icons": [{ "src": "search-wod.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "View Diary",
+      "short_name": "Diary",
+      "description": "View diary for recent activities",
+      "url": "/diary",
+      "icons": [{ "src": "diary.png", "sizes": "192x192" }]
+    }
+  ]
+}
