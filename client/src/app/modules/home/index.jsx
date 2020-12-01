@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import cssModules from 'react-css-modules';
 import { Card, Spinner, Nav } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -10,7 +11,7 @@ import * as actionCreators from '../../actions';
 import BestStats from './best-stats';
 import { secondsToString } from '../../utils/helpers';
 
-import './home.scss';
+import styles from './home.scss';
 
 class Home extends React.Component {
   constructor(props) {
@@ -114,6 +115,8 @@ Home.contextTypes = {
 
 };
 
+export const StyledHome = cssModules(Home, styles, { allowMultiple: true });
+
 export default connect(
   state => ({
     fetchingWeeklyStats: state.fetchingWeeklyStats,
@@ -121,4 +124,4 @@ export default connect(
     weeklyStats: state.weeklyStats
   }),
   dispatch => bindActionCreators(actionCreators, dispatch),
-)(Home);
+)(StyledHome);

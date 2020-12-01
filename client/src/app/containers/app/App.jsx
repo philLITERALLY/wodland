@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cssModules from 'react-css-modules';
 
 import Navbar from '../../modules/navbar';
 
-import './App.scss';
+import styles from './App.scss';
 
 class App extends React.Component {
   renderApp() {
@@ -25,4 +26,4 @@ App.propTypes = {
   children: PropTypes.object.isRequired,
 };
 
-export default App;
+export default cssModules(App, styles, { allowMultiple: true });

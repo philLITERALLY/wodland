@@ -1,14 +1,15 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import cssModules from 'react-css-modules';
 import { Navbar, Nav } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as actionCreators from '../../actions';
 
-import './navbar.scss';
+import styles from './navbar.scss';
 
-function App(props) {
+function NavComponent(props) {
   const { logout, history } = props;
 
   return (
@@ -38,12 +39,14 @@ function App(props) {
   );
 }
 
-App.propTypes = {
+NavComponent.propTypes = {
   logout: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 };
 
+export const StyledNavComponent = cssModules(NavComponent, styles, { allowMultiple: true });
+
 export default connect(
   null,
   dispatch => bindActionCreators(actionCreators, dispatch),
-)(App);
+)(StyledNavComponent);

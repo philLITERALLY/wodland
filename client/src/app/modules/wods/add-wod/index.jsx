@@ -1,4 +1,5 @@
 import React from 'react';
+import cssModules from 'react-css-modules';
 import { Accordion, Card, Form, Button } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -7,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { WODTypeOpts } from '../../../constants';
 import * as actionCreators from '../../../actions';
 
-import './add-wod.scss';
+import styles from './add-wod.scss';
 
 class NewWOD extends React.Component {
   static renderWODDetails() {
@@ -155,7 +156,9 @@ NewWOD.contextTypes = {
 
 };
 
+export const StyledNewWOD = cssModules(NewWOD, styles, { allowMultiple: true });
+
 export default connect(
   null,
   dispatch => bindActionCreators(actionCreators, dispatch),
-)(NewWOD);
+)(StyledNewWOD);
