@@ -45,5 +45,6 @@
       "url": "/diary",
       "icons": [{ "src": "diary.png", "sizes": "192x192" }]
     }
-  ]
+  ],
+  "categories": ["exercise"]
 }

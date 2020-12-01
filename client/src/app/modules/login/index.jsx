@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cssModules from 'react-css-modules';
 import { Form, Button } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -8,7 +7,7 @@ import { bindActionCreators } from 'redux';
 
 import * as actionCreators from '../../actions';
 
-import styles from './login.scss';
+import './login.scss';
 
 class Login extends React.Component {
   constructor(props) {
@@ -83,9 +82,7 @@ Login.contextTypes = {
 
 };
 
-export const StyledLogin = cssModules(Login, styles, { allowMultiple: true });
-
 export default connect(
   null,
   dispatch => bindActionCreators(actionCreators, dispatch),
-)(StyledLogin);
+)(Login);

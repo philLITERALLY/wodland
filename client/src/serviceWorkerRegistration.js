@@ -12,16 +12,17 @@
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost'
-      // [::1] is the IPv6 localhost address.
-      || window.location.hostname === '[::1]'
-      // 127.0.0.0/8 are considered localhost for IPv4.
-      || window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
+    // [::1] is the IPv6 localhost address.
+    || window.location.hostname === '[::1]'
+    // 127.0.0.0/8 are considered localhost for IPv4.
+    || window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
 );
 
 function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
+      // eslint-disable-next-line no-param-reassign
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -35,7 +36,7 @@ function registerValidSW(swUrl, config) {
               // content until all client tabs are closed.
               console.log(
                 'New content is available and will be used when all '
-                    + 'tabs for this page are closed. See https://cra.link/PWA.'
+                  + 'tabs for this page are closed. See https://cra.link/PWA.'
               );
 
               // Execute callback
@@ -72,7 +73,7 @@ function checkValidServiceWorker(swUrl, config) {
       const contentType = response.headers.get('content-type');
       if (
         response.status === 404
-          || (contentType != null && contentType.indexOf('javascript') === -1)
+        || (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
         // No service worker found. Probably a different app. Reload the page.
         navigator.serviceWorker.ready.then((registration) => {
@@ -113,7 +114,7 @@ export function register(config) {
         navigator.serviceWorker.ready.then(() => {
           console.log(
             'This web app is being served cache-first by a service '
-                + 'worker. To learn more, visit https://cra.link/PWA'
+              + 'worker. To learn more, visit https://cra.link/PWA'
           );
         });
       } else {

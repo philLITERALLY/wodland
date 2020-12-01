@@ -1,10 +1,9 @@
 import React from 'react';
 import { Accordion, Card, Button } from 'react-bootstrap';
-import cssModules from 'react-css-modules';
 
 import { secondsToString } from '../../../utils/helpers';
 
-import styles from './wod-card.scss';
+import './wod-card.scss';
 
 function WODCard(wod, index, displayIndex) {
   const renderField = (label, value) => value && (<p><b>{label}: </b> {value}</p>);
@@ -47,4 +46,4 @@ function WODCard(wod, index, displayIndex) {
   );
 }
 
-export default cssModules(WODCard, styles, { allowMultiple: true });
+export default WODCard;

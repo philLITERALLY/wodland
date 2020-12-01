@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cssModules from 'react-css-modules';
 import { Accordion, Card, Form, Button, Spinner } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -12,7 +11,7 @@ import { DropDown, TextField, BoolRadioButtons, DateRange, TimeRange, TextFieldR
 import WODCard from '../../shared/wod-card';
 import { WODTypeOpts } from '../../../constants';
 
-import styles from './search-wods.scss';
+import './search-wods.scss';
 
 function SearchWODs(props) {
   const foundWODs = React.useRef(null);
@@ -134,8 +133,6 @@ SearchWODs.propTypes = {
   wods: PropTypes.arrayOf(PropTypes.object),
 };
 
-export const StyledSearchWODs = cssModules(SearchWODs, styles, { allowMultiple: true });
-
 export default connect(
   state => ({
     fetchingWODs: state.fetchingWODs,
@@ -143,4 +140,4 @@ export default connect(
     wods: state.wods
   }),
   dispatch => bindActionCreators(actionCreators, dispatch),
-)(StyledSearchWODs);
+)(SearchWODs);

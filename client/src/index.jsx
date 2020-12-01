@@ -15,7 +15,7 @@ import SearchWODs from './app/modules/wods/search-wods';
 import Diary from './app/modules/diary';
 
 import reducers from './app/reducers';
-import * as serviceWorkerRegistration from './app/utils/serviceWorkerRegistration';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './app/utils/reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 

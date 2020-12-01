@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cssModules from 'react-css-modules';
 import { Accordion, Card } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -12,7 +11,7 @@ import * as actionCreators from '../../actions';
 import { secondsToString } from '../../utils/helpers';
 
 import 'react-day-picker/lib/style.css';
-import styles from './diary.scss';
+import './diary.scss';
 
 class Diary extends React.Component {
   static sameDay(date1, date2) {
@@ -151,8 +150,6 @@ Diary.contextTypes = {
 
 };
 
-export const StyledDiary = cssModules(Diary, styles, { allowMultiple: true });
-
 export default connect(
   state => ({
     fetchingActivities: state.fetchingActivities,
@@ -160,4 +157,4 @@ export default connect(
     activities: state.activities
   }),
   dispatch => bindActionCreators(actionCreators, dispatch),
-)(StyledDiary);
+)(Diary);

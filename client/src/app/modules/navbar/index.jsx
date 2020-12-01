@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cssModules from 'react-css-modules';
 import { Navbar, Nav } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as actionCreators from '../../actions';
 
-import styles from './navbar.scss';
+import './navbar.scss';
 
 function NavComponent(props) {
   const { logout, history } = props;
@@ -28,6 +27,7 @@ function NavComponent(props) {
         <Nav>
           <Nav.Link onClick={
             () => {
+              // eslint-disable-next-line no-alert
               if (window.confirm('Are you sure you want to logout?')) logout(history);
             }}
           >
@@ -44,9 +44,7 @@ NavComponent.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-export const StyledNavComponent = cssModules(NavComponent, styles, { allowMultiple: true });
-
 export default connect(
   null,
   dispatch => bindActionCreators(actionCreators, dispatch),
-)(StyledNavComponent);
+)(NavComponent);
