@@ -22,7 +22,7 @@ const reducers = handleActions({
   ),
 
   [ActionTypes.FETCHED_WEEKLY_STATS]: (state, action) => (
-    _.assign({}, state, { 
+    _.assign({}, state, {
       fetchingWeeklyStats: false,
       fetchedWeeklyStats: true,
       weeklyStats: action.payload
@@ -48,13 +48,13 @@ const reducers = handleActions({
 
   [ActionTypes.FETCHED_ACTIVITIES]: (state, action) => (
     // add any new activities in to state
-    _.assign({}, state, { 
+    _.assign({}, state, {
       fetchingActivities: false,
       fetchedActivities: true,
-      activities: _.unionBy(state.activities, action.payload, 'id') 
+      activities: _.unionBy(state.activities, action.payload, 'id')
     })
   ),
-  
+
   /* Fetching WODs */
   [ActionTypes.FETCHING_WODS]: state => (
     _.assign({}, state, {
@@ -76,7 +76,7 @@ const reducers = handleActions({
 
   [ActionTypes.FETCHED_WODS]: (state, action) => (
     // add any new activities in to state
-    _.assign({}, state, { 
+    _.assign({}, state, {
       fetchingWODs: false,
       fetchedWODs: true,
       wods: action.payload

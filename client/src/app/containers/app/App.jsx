@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import Navbar from '../../modules/navbar'
+import Navbar from '../../modules/navbar';
 
-import './App.css';
+import './App.scss';
 
 class App extends React.Component {
   renderApp() {

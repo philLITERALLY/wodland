@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -21,25 +22,33 @@ import 'bootstrap/dist/css/bootstrap.css';
 require('./global.scss');
 
 // const loggerMiddleware = createLogger();
-export const store = createStore(reducers, applyMiddleware(
-    thunkMiddleware, // loggerMiddleware
+const store = createStore(reducers, applyMiddleware(
+  thunkMiddleware, // loggerMiddleware
 ));
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={props => (
+const PrivateRoute = ({ ...rest }) => (
+  <Route
+    {...rest}
+    render={props => (
       localStorage.getItem('username') && localStorage.getItem('password') && localStorage.getItem('token')
-          ? (
-            <App location={props.location} history={props.history}>
-              <Switch>
-                <Route exact path="/" component={Home}/>
-                <Route path="/add-wod" component={AddWOD}/>
-                <Route path="/search-wods" component={SearchWODs}/>
-                <Route path="/diary" component={Diary}/>
-              </Switch>
-            </App>
-          ) : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-  )} />
-)
+        ? (
+          <App location={props.location} history={props.history}>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/add-wod" component={AddWOD} />
+              <Route path="/search-wods" component={SearchWODs} />
+              <Route path="/diary" component={Diary} />
+            </Switch>
+          </App>
+        ) : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+    )}
+  />
+);
+
+PrivateRoute.propTypes = {
+  location: PropTypes.object,
+  history: PropTypes.object,
+};
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const ActionTypes = {
   FETCHING_WEEKLY_STATS: 'FETCHING_WEEKLY_STATS',
   FAILED_FETCHING_WEEKLY_STATS: 'FAILED_FETCHING_WEEKLY_STATS',

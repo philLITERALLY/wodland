@@ -10,7 +10,7 @@ import * as actionCreators from '../../actions';
 import BestStats from './best-stats';
 import { secondsToString } from '../../utils/helpers';
 
-import './home.css';
+import './home.scss';
 
 class Home extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class Home extends React.Component {
 
     this.state = { selectedTab: 'WODs' };
 
-    _.bindAll(this, 'tabChange');  
+    _.bindAll(this, 'tabChange');
   }
 
   componentDidMount() {
@@ -32,14 +32,16 @@ class Home extends React.Component {
   renderWeeklyStats() {
     const { weeklyStats } = this.props;
     const { selectedTab } = this.state;
-    
+
     const thisWeek = moment().format('W');
     const thisYear = moment().format('YYYY');
-    const thisWeeksStats = _.find(weeklyStats, { 'week': parseInt(thisWeek), 'year': parseInt(thisYear) });
-    
+    const thisWeeksStats = _.find(weeklyStats,
+      { week: parseInt(thisWeek, 10), year: parseInt(thisYear, 10) });
+
     const lastWeek = moment().subtract(7, 'days').format('W');
     const lastYear = moment().subtract(7, 'days').format('YYYY');
-    const lastWeeksStats = _.find(weeklyStats, { 'week': parseInt(lastWeek), 'year': parseInt(lastYear) });
+    const lastWeeksStats = _.find(weeklyStats,
+      { week: parseInt(lastWeek, 10), year: parseInt(lastYear, 10) });
 
     const noActivitiesT = 'No activities this week';
     const noActivitiesL = 'No activities last week';
@@ -76,12 +78,12 @@ class Home extends React.Component {
               <Nav.Link eventKey="MEPs">MEPs</Nav.Link>
             </Nav.Item>
           </Nav>
-          <BestStats weeklyStats={weeklyStats} selectedTab={selectedTab} />    
+          <BestStats weeklyStats={weeklyStats} selectedTab={selectedTab} />
         </div>
       </div>
-    )
+    );
   }
-  
+
   render() {
     const { fetchedWeeklyStats } = this.props;
 
@@ -96,28 +98,27 @@ class Home extends React.Component {
         <h1 style={{ textAlign: 'center', paddingTop: '10px' }}>
           Hey {localStorage.getItem('username')}
         </h1>
-        { !fetchedWeeklyStats  ? spinner : this.renderWeeklyStats() }
+        { !fetchedWeeklyStats ? spinner : this.renderWeeklyStats() }
       </div>
     );
   }
 }
 
 Home.propTypes = {
-  location: PropTypes.object,
-  login: PropTypes.func,
-  error: PropTypes.string,
-  reset: PropTypes.func,
+  getWeeklyStats: PropTypes.func.isRequired,
+  weeklyStats: PropTypes.array.isRequired,
+  fetchedWeeklyStats: PropTypes.bool.isRequired,
 };
 
 Home.contextTypes = {
-  
+
 };
 
 export default connect(
-  state => ({ 
+  state => ({
     fetchingWeeklyStats: state.fetchingWeeklyStats,
     fetchedWeeklyStats: state.fetchedWeeklyStats,
-    weeklyStats: state.weeklyStats 
+    weeklyStats: state.weeklyStats
   }),
   dispatch => bindActionCreators(actionCreators, dispatch),
 )(Home);
