@@ -24,7 +24,7 @@ class App extends React.Component {
     // Detects if device is in standalone mode
     const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
 
-    // Detect if we've asked to install in the last 30 days
+    // Detect if we've asked to install in the last 5 days
     const today = moment().toDate();
     const lastPrompt = moment(localStorage.getItem('installPrompt'));
     const days = moment(today).diff(lastPrompt, 'days');

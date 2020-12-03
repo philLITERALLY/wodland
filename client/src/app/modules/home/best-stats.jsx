@@ -88,7 +88,7 @@ function BestStats(props) {
             <VictoryContainer
               style={{ pointerEvents: 'auto', userSelect: 'auto', touchAction: 'auto' }}
             />
-                    )}
+          )}
         >
           <VictoryAxis tickCount={3} />
           <VictoryAxis dependentAxis tickCount={5} tickFormat={tickFormat} />

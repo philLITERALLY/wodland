@@ -20,9 +20,16 @@ var wodColumns = []string{
 	"wod.picture",
 	"wod.type",
 	"wod.created_by",
-	"COUNT(activity.id) as attempts",
-	"MIN(activity.time_taken) as best_time",
-	"MAX(activity.score) as best_score",
+	// "COUNT(activity.id) as attempts",
+	// "MIN(activity.time_taken) as best_time",
+	// "MAX(activity.score) as best_score",
+	"activity.id",
+	"activity.date",
+	"activity.time_taken",
+	"activity.meps",
+	"activity.exertion",
+	"activity.notes",
+	"activity.score",
 }
 
 // GetWOD will get and return an individual WOD
@@ -83,7 +90,6 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 		Select(wodColumns...).
 		From("wod").
 		LeftJoin("activity ON activity.wod_id = wod.id AND activity.user_id = ?", userID).
-		GroupBy("wod.id").
 		OrderBy("random()")
 
 	selectQuery = processWODFilters(selectQuery, filters)
@@ -99,18 +105,72 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 		return nil, err
 	}
 
+	var wodActivities = make(map[int][]data.Activity)
 	defer rows.Close()
 	for rows.Next() {
 		var wod data.WOD
+		var (
+			ActivityID        *int64
+			ActivityDate      *int64
+			ActivityTimeTaken *int64
+			ActivityMEPs      *int64
+			ActivityExertion  *int64
+			ActivityNotes     *string
+			ActivityScore     *int
+		)
 
-		fmt.Printf("rows: %v \n", rows)
-
-		if err := rows.Scan(&wod.ID, &wod.Source, &wod.CreationT, &wod.Exercise, &wod.Picture, pq.Array(&wod.Type), &wod.CreatedBy, &wod.Attempts, &wod.BestTime, &wod.BestScore); err != nil {
+		if err := rows.Scan(
+			&wod.ID, 
+			&wod.Source, 
+			&wod.CreationT, 
+			&wod.Exercise, 
+			&wod.Picture, 
+			pq.Array(&wod.Type), 
+			&wod.CreatedBy, 
+			// &wod.Attempts, 
+			// &wod.BestTime, 
+			// &wod.BestScore
+			&ActivityID,
+			&ActivityDate,
+			&ActivityTimeTaken,
+			&ActivityMEPs,
+			&ActivityExertion,
+			&ActivityNotes,
+			&ActivityScore,
+		); err != nil {
 			fmt.Printf("scan err: %v \n", err)
 			return nil, err
 		}
 
+		if ActivityID != nil {
+			activity := data.Activity{ 
+				ID: *ActivityID,
+				ActivityInput: data.ActivityInput{
+					Date:      *ActivityDate,
+					TimeTaken: *ActivityTimeTaken,
+					MEPs:      ActivityMEPs,
+					Exertion:  ActivityExertion,
+					Notes:     ActivityNotes,
+					Score:     ActivityScore,
+				},
+			}
+			
+			if activities, ok := wodActivities[wod.ID]; ok {
+				wodActivities[wod.ID] = append(activities, activity)
+			} else {
+				wodActivities[wod.ID] = []data.Activity{activity} 
+			}
+		}
+
 		dbWODs = append(dbWODs, wod)
+	}
+
+	for index, wod := range dbWODs {
+		thisWODsActivities := wodActivities[wod.ID]
+		if thisWODsActivities != nil {
+			wod.Activities = &thisWODsActivities
+			dbWODs[index] = wod
+		}
 	}
 
 	return dbWODs, nil
