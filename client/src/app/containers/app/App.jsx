@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import Navbar from '../../modules/navbar';
+import IphoneInstallPWA from '../../modules/shared/install-pwa';
 
 import './App.scss';
 
@@ -22,18 +24,25 @@ class App extends React.Component {
     // Detects if device is in standalone mode
     const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
 
+    // Detect if we've asked to install in the last 30 days
+    const today = moment().toDate();
+    const lastPrompt = moment(localStorage.getItem('installPrompt'));
+    const days = moment(today).diff(lastPrompt, 'days');
+    const installReminder = Number.isNaN(days) || days > 5;
+
     // Checks if should display install popup notification:
-    if (isIos() && !isInStandaloneMode()) {
+    if (isIos() && !isInStandaloneMode() && installReminder) {
+      localStorage.setItem('installPrompt', today);
       this.setState({ showInstallMessage: true });
     }
   }
 
   renderApp() {
-    console.log('this.state: ', this.state);
     return (
       <div className="body-bg">
         <Navbar history={this.props.history} />
         {this.props.children}
+        {this.state.showInstallMessage && <IphoneInstallPWA />}
       </div>
     );
   }
