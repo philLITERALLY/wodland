@@ -136,6 +136,8 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 			return nil, err
 		}
 
+		// if wod has activities associated add them to list and store wod
+		// else just store the wod
 		if ActivityID != nil {
 			activity := data.Activity{ 
 				ID: *ActivityID,
@@ -149,16 +151,21 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 				},
 			}
 
+			// if we've already got an array of activities for the current WOD append to it
+			// and don't store duplicate wod
+			// else create the array of activities and store wod
 			if activities, ok := wodActivities[wod.ID]; ok {
 				wodActivities[wod.ID] = append(activities, activity)
 			} else {
 				wodActivities[wod.ID] = []data.Activity{activity} 
+				dbWODs = append(dbWODs, wod)
 			}
+		} else {
+			dbWODs = append(dbWODs, wod)
 		}
-
-		dbWODs = append(dbWODs, wod)
 	}
 
+	// loop through stored wods and add any associated activities
 	for index, wod := range dbWODs {
 		if activities, ok := wodActivities[wod.ID]; ok {			
 			wod.Activities = &activities
