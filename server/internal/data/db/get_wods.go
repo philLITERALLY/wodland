@@ -20,9 +20,6 @@ var wodColumns = []string{
 	"wod.picture",
 	"wod.type",
 	"wod.created_by",
-	// "COUNT(activity.id) as attempts",
-	// "MIN(activity.time_taken) as best_time",
-	// "MAX(activity.score) as best_score",
 	"activity.id",
 	"activity.date",
 	"activity.time_taken",
@@ -47,7 +44,7 @@ func GetWOD(db *sql.DB, wodID string, userID int) (data.WOD, error) {
 	sqlWODQuery, args, _ := wodQuery.ToSql()
 
 	err := db.QueryRow(sqlWODQuery, args...).
-		Scan(&dbWOD.ID, &dbWOD.Source, &dbWOD.CreationT, &dbWOD.Exercise, &dbWOD.Picture, pq.Array(&dbWOD.Type), &dbWOD.CreatedBy, &dbWOD.Attempts, &dbWOD.BestTime, &dbWOD.BestScore)
+		Scan(&dbWOD.ID, &dbWOD.Source, &dbWOD.CreationT, &dbWOD.Exercise, &dbWOD.Picture, pq.Array(&dbWOD.Type), &dbWOD.CreatedBy)
 	if err != nil {
 		return dbWOD, err
 	}
@@ -126,10 +123,7 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 			&wod.Exercise, 
 			&wod.Picture, 
 			pq.Array(&wod.Type), 
-			&wod.CreatedBy, 
-			// &wod.Attempts, 
-			// &wod.BestTime, 
-			// &wod.BestScore
+			&wod.CreatedBy,
 			&ActivityID,
 			&ActivityDate,
 			&ActivityTimeTaken,
@@ -154,7 +148,7 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 					Score:     ActivityScore,
 				},
 			}
-			
+
 			if activities, ok := wodActivities[wod.ID]; ok {
 				wodActivities[wod.ID] = append(activities, activity)
 			} else {
@@ -166,9 +160,8 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 	}
 
 	for index, wod := range dbWODs {
-		thisWODsActivities := wodActivities[wod.ID]
-		if thisWODsActivities != nil {
-			wod.Activities = &thisWODsActivities
+		if activities, ok := wodActivities[wod.ID]; ok {			
+			wod.Activities = &activities
 			dbWODs[index] = wod
 		}
 	}

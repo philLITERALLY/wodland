@@ -52,9 +52,6 @@ type WOD struct {
 	ID int `json:"id"`
 	WODInput
 	CreatedBy  int64       `json:"createdBy"`
-	Attempts   *int        `json:"attempts"`
-	BestTime   *int        `json:"bestTime,omitempty"`
-	BestScore  *int        `json:"bestScore,omitempty"`
 	Activities *[]Activity `json:"activities,omitempty"`
 }
 

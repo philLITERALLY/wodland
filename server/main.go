@@ -139,7 +139,7 @@ func main() {
 		api.POST("/logout", authMiddleware.LogoutHandler)
 		api.GET("/refresh_token", authMiddleware.RefreshHandler)
 
-		// Endpoint to get single WOD and any attempts at it
+		// Endpoint to get stats for every week
 		api.GET("/WeeklyStats", authMiddleware.MiddlewareFunc(), internalHTTP.GetWeeklyStats(dataSource))
 
 		// Endpoint to get single WOD and any attempts at it
