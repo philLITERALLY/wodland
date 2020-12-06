@@ -102,7 +102,6 @@ type WODFilter struct {
 
 // ActivityFilter is used to model filterable aspects for Activities
 type ActivityFilter struct {
-	WODID     string    `json:"wodID"`
 	StartDate time.Time `json:"startDate"`
 	EndDate   time.Time `json:"endDate"`
 }

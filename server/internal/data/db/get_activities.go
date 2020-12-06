@@ -65,16 +65,8 @@ func GetActivities(db *sql.DB, filters *data.ActivityFilter, userID int) ([]data
 }
 
 func processActivityFilters(baseQuery sq.SelectBuilder, filters *data.ActivityFilter) sq.SelectBuilder {
-	baseQuery = processWODIDFilter(baseQuery, filters)
 	baseQuery = processActivityDateFilter(baseQuery, filters)
 
-	return baseQuery
-}
-
-func processWODIDFilter(baseQuery sq.SelectBuilder, filters *data.ActivityFilter) sq.SelectBuilder {
-	if filters.WODID != "" {
-		baseQuery = baseQuery.Where(sq.Eq{"wod_id": filters.WODID})
-	}
 	return baseQuery
 }
 
