@@ -63,13 +63,13 @@ function SearchWODs(props) {
       </Accordion.Toggle>
       <Accordion.Collapse eventKey="0">
         <Card.Body>
-          { DateRange(register, 'Created Date Range', 'creationDate', 'startDate', 'endDate', initStartDate, initEndDate) }
-          { DropDown(register, 'Type', 'type', WODTypeOpts) }
-          { TextField(register, 'Source', 'source', 'text', 'Where was the WOD from? e.g. Crossfit, Berserk Online, The Girls, Hero WOD') }
-          { TextField(register, 'Include Exercises', 'includeExercise', 'text', 'Enter any exercises to include (separate with comma)') }
-          { TextField(register, 'Exclude Exercises', 'excludeExercise', 'text', 'Enter any exercises to exclude (separate with comma)') }
-          { BoolRadioButtons(register, setValue, 'Picture Included', 'picture') }
-          { BoolRadioButtons(register, setValue, 'Attempted Before', 'tried') }
+          {DateRange(register, 'Created Date Range', 'creationDate', 'startDate', 'endDate', initStartDate, initEndDate)}
+          {DropDown(register, 'Type', 'type', WODTypeOpts)}
+          {TextField(register, 'Source', 'source', 'text', 'Where was the WOD from? e.g. Crossfit, Berserk Online, The Girls, Hero WOD')}
+          {TextField(register, 'Include Exercises', 'includeExercise', 'text', 'Enter any exercises to include (separate with comma)')}
+          {TextField(register, 'Exclude Exercises', 'excludeExercise', 'text', 'Enter any exercises to exclude (separate with comma)')}
+          {BoolRadioButtons(register, setValue, 'Picture Included', 'picture')}
+          {BoolRadioButtons(register, setValue, 'Attempted Before', 'tried')}
         </Card.Body>
       </Accordion.Collapse>
     </Card>
@@ -85,41 +85,41 @@ function SearchWODs(props) {
       </Accordion.Toggle>
       <Accordion.Collapse eventKey="1">
         <Card.Body>
-          { TimeRange(register, setValue, getValues, 'Time Range', 'time', leftSideFields, rightSideFields) }
-          { TextFieldRange(register, 'Score Range', 'score', 'bestScoreLow', 'bestScoreHigh', 'number', 'Rounds + reps?') }
-          { TextFieldRange(register, 'MEP Range', 'meps', 'bestMEPSLow', 'bestMEPSHigh', 'number') }
-          { TextFieldRange(register, 'Perceived Exertion Range', 'exertion', 'bestExertionLow', 'bestExertionHigh', 'number') }
+          {TimeRange(register, setValue, getValues, 'Time Range', 'time', leftSideFields, rightSideFields)}
+          {TextFieldRange(register, 'Score Range', 'score', 'bestScoreLow', 'bestScoreHigh', 'number', 'Rounds + reps?')}
+          {TextFieldRange(register, 'MEP Range', 'meps', 'bestMEPSLow', 'bestMEPSHigh', 'number')}
+          {TextFieldRange(register, 'Perceived Exertion Range', 'exertion', 'bestExertionLow', 'bestExertionHigh', 'number')}
         </Card.Body>
       </Accordion.Collapse>
     </Card>
   );
 
   const spinner = <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />;
-  const wodList = wods && wods.length > 0 ? (
-    <Accordion>{ wods && wods.map((wod, index) => WODCard(wod, index + 1, true)) }</Accordion>
-  ) : (
-    <div style={{ margin: 'auto', paddingBottom: '1rem' }}>
-      <h2 style={{ textAlign: 'center' }}>No matching WODs</h2>
-    </div>
-  );
+  const wodList = wods && wods.length > 0
+    ? (<Accordion>{wods && wods.map((wod, index) => WODCard(wod, index + 1, true))}</Accordion>)
+    : (
+      <div style={{ margin: 'auto', paddingBottom: '1rem' }}>
+        <h2 style={{ textAlign: 'center' }}>No matching WODs</h2>
+      </div>
+    );
 
   return (
     <div>
       <Form onSubmit={handleSubmit(onSubmit)} onChange={clearWODs}>
         <Accordion defaultActiveKey="0">
-          { renderWODDetails() }
+          {renderWODDetails()}
         </Accordion>
         <Accordion>
-          { watch('tried') === 'true' && renderBestAttempt() }
+          {watch('tried') === 'true' && renderBestAttempt()}
         </Accordion>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Button variant="primary" type="submit" style={{ margin: '10px auto', display: 'block' }} disabled={fetchingWODs}>
-            { fetchingWODs ? spinner : 'Search WODs' }
+            {fetchingWODs ? spinner : 'Search WODs'}
           </Button>
         </div>
       </Form>
       <div ref={foundWODs}>
-        { fetchedWODs && wodList }
+        {fetchedWODs && wodList}
       </div>
     </div>
   );

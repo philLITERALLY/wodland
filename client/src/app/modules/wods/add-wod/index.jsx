@@ -9,8 +9,8 @@ import * as actionCreators from '../../../actions';
 
 import './add-wod.scss';
 
-class NewWOD extends React.Component {
-  static renderWODDetails() {
+function AddWOD(props) {
+  const renderWODDetails = () => {
     return (
       <Card>
         <Accordion.Toggle as={Card.Header} eventKey="0">
@@ -26,7 +26,7 @@ class NewWOD extends React.Component {
             <Form.Group controlId="type">
               <Form.Label>Type</Form.Label>
               <Form.Control as="select">
-                { WODTypeOpts }
+                {WODTypeOpts}
               </Form.Control>
             </Form.Group>
 
@@ -48,14 +48,6 @@ class NewWOD extends React.Component {
         </Accordion.Collapse>
       </Card>
     );
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = { effortVal: undefined };
-
-    _.bindAll(this, 'saveWOD');
   }
 
   saveWOD(event) {
@@ -104,7 +96,7 @@ class NewWOD extends React.Component {
             </Form.Group>
 
             <Form.Group controlId="exertion">
-              <Form.Label>Perceived Exertion: { effortTxt }</Form.Label>
+              <Form.Label>Perceived Exertion: {effortTxt}</Form.Label>
               <input
                 type="range"
                 className="custom-range"
@@ -136,8 +128,8 @@ class NewWOD extends React.Component {
     return (
       <Form onSubmit={this.saveWOD}>
         <Accordion defaultActiveKey="0">
-          { NewWOD.renderWODDetails() }
-          { this.renderCurrentDetails() }
+          {AddWOD.renderWODDetails()}
+          {this.renderCurrentDetails()}
         </Accordion>
         <Button variant="primary" type="submit" style={{ margin: '10px auto', display: 'block' }}>
           Save
@@ -147,15 +139,15 @@ class NewWOD extends React.Component {
   }
 }
 
-NewWOD.propTypes = {
+AddWOD.propTypes = {
 
 };
 
-NewWOD.contextTypes = {
+AddWOD.contextTypes = {
 
 };
 
 export default connect(
   null,
   dispatch => bindActionCreators(actionCreators, dispatch),
-)(NewWOD);
+)(AddWOD);

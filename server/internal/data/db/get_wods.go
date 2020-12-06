@@ -36,7 +36,8 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 	selectQuery := psql.
 		Select(wodColumns...).
 		From("wod").
-		LeftJoin("activity ON activity.wod_id = wod.id AND activity.user_id = ?", userID).
+		LeftJoin("activity ON activity.wod_id = wod.id").
+		Where(sq.Eq{"activity.user_id": userID}).
 		OrderBy("random()")
 
 	selectQuery = processWODFilters(selectQuery, filters)
