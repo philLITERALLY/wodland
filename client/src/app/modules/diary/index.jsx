@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DayPicker from 'react-day-picker';
+import { Timeline, TimelineEvent } from 'react-event-timeline';
 
 import WODCard from '../shared/wod-card';
 import * as actionCreators from '../../actions';
@@ -37,12 +38,15 @@ class Diary extends React.Component {
   }
   /* eslint-enable react/no-danger */
 
-  static renderActivity(activity, index) {
+  static renderActivity(activity) {
     return (
-      <div key={activity.id} style={{ padding: '0 0.5rem', wordBreak: 'break-all' }}>
-        { index > 1 && <hr /> }
-
-        <h2>Activity {index} Details</h2>
+      <TimelineEvent
+        title=""
+        createdAt={new Date(activity.date * 1000).toLocaleString()}
+        key={activity.id}
+        // bubbleStyle={{ border: (isBestScore || isBestTime) && '2px solid rgb(111, 186, 28)' }}
+        bubbleStyle={{ border: '' }}
+      >
         <p>
           <b>Time Taken: </b>
           { secondsToString(activity.timeTaken) }
@@ -51,9 +55,10 @@ class Diary extends React.Component {
         { Diary.renderField('MEPs', activity.meps) }
         { Diary.renderField('Exertion', activity.exertion) }
         { Diary.renderArea('Notes', activity.notes) }
-
-        { WODCard(activity.wod, index) }
-      </div>
+        <Accordion>
+          { WODCard(activity.wod) }
+        </Accordion>
+      </TimelineEvent>
     );
   }
 
@@ -94,14 +99,16 @@ class Diary extends React.Component {
       return result;
     }, []);
 
+    const sortedActivities = _.sortBy(activitiesToday, 'date');
+
     return activitiesToday.length === 0 ? (
       <h2 style={{ textAlign: 'center' }}>No WODs</h2>
     ) : (
-      <Accordion>
+      <Timeline>
         {
-          activitiesToday.map((activity, index) => Diary.renderActivity(activity, index + 1))
+          sortedActivities.map((activity) => Diary.renderActivity(activity))
         }
-      </Accordion>
+      </Timeline>
     );
   }
 
