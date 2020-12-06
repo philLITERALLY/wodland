@@ -43,27 +43,6 @@ func GetWeeklyStats(dataSource *sql.DB) gin.HandlerFunc {
 	}
 }
 
-// GetWOD will get and return an individual WOD
-func GetWOD(dataSource *sql.DB) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		userID, err := GetUserID(c)
-		if err != nil {
-			fmt.Printf("%+v", err)
-			c.JSON(http.StatusBadRequest, err)
-		}
-
-		wodID := c.Param("wodID")
-
-		wodResult, err := db.GetWOD(dataSource, wodID, userID)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, fmt.Sprintf("Error reading wod: %q", err))
-			return
-		}
-
-		c.JSON(http.StatusOK, wodResult)
-	}
-}
-
 // GetWODs will get and return WODs
 func GetWODs(dataSource *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {

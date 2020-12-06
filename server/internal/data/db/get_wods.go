@@ -29,56 +29,6 @@ var wodColumns = []string{
 	"activity.score",
 }
 
-// GetWOD will get and return an individual WOD
-func GetWOD(db *sql.DB, wodID string, userID int) (data.WOD, error) {
-	var dbWOD = data.WOD{}
-	var dbActivities []data.Activity
-
-	wodQuery := psql.
-		Select(wodColumns...).
-		From("wod").
-		LeftJoin("activity ON activity.wod_id = wod.id").
-		Where(sq.Eq{"wod.id": wodID}).
-		Where(sq.Eq{"activity.user_id": userID}).
-		GroupBy("wod.id")
-	sqlWODQuery, args, _ := wodQuery.ToSql()
-
-	err := db.QueryRow(sqlWODQuery, args...).
-		Scan(&dbWOD.ID, &dbWOD.Source, &dbWOD.CreationT, &dbWOD.Exercise, &dbWOD.Picture, pq.Array(&dbWOD.Type), &dbWOD.CreatedBy)
-	if err != nil {
-		return dbWOD, err
-	}
-
-	activityQuery := psql.
-		Select("id, date, time_taken, score, meps, exertion, notes").
-		From("activity").
-		Where(sq.Eq{"wod_id": wodID}).
-		Where(sq.Eq{"activity.user_id": userID})
-	sqlActivityQuery, args, _ := activityQuery.ToSql()
-
-	rows, err := db.Query(sqlActivityQuery, args...)
-	if err != nil {
-		return dbWOD, err
-	}
-
-	defer rows.Close()
-	for rows.Next() {
-		var activity data.Activity
-
-		if err := rows.Scan(&activity.ID, &activity.Date, &activity.TimeTaken, &activity.Score, &activity.MEPs, &activity.Exertion, &activity.Notes); err != nil {
-			return dbWOD, err
-		}
-
-		dbActivities = append(dbActivities, activity)
-	}
-
-	if len(dbActivities) > 0 {
-		dbWOD.Activities = &dbActivities
-	}
-
-	return dbWOD, nil
-}
-
 // GetWODs will get and return WODs
 func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error) {
 	var dbWODs = []data.WOD{}
@@ -177,6 +127,7 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 }
 
 func processWODFilters(baseQuery sq.SelectBuilder, filters *data.WODFilter) sq.SelectBuilder {
+	baseQuery = processWODIDFilter(baseQuery, filters)
 	baseQuery = processSourceFilter(baseQuery, filters)
 	baseQuery = processWODDateFilter(baseQuery, filters)
 	baseQuery = processExerciseFilter(baseQuery, filters)
@@ -191,10 +142,19 @@ func processWODFilters(baseQuery sq.SelectBuilder, filters *data.WODFilter) sq.S
 	return baseQuery
 }
 
+func processWODIDFilter(baseQuery sq.SelectBuilder, filters *data.WODFilter) sq.SelectBuilder {
+	if filters.WODID != nil {
+		baseQuery = baseQuery.Where(sq.Eq{"wod.id": filters.WODID})
+	}
+
+	return baseQuery
+}
+
 func processSourceFilter(baseQuery sq.SelectBuilder, filters *data.WODFilter) sq.SelectBuilder {
 	if len(filters.Source) > 0 {
 		baseQuery = baseQuery.Where(sq.Expr("LOWER(wod.source) LIKE LOWER(?)", fmt.Sprint("%", filters.Source, "%")))
 	}
+
 	return baseQuery
 }
 
@@ -250,6 +210,7 @@ func processTypeFilter(baseQuery sq.SelectBuilder, filters *data.WODFilter) sq.S
 	if len(filters.Type) > 0 {
 		baseQuery = baseQuery.Where(sq.Expr("LOWER(?) = ANY(LOWER(type::text)::text[])", filters.Type))
 	}
+
 	return baseQuery
 }
 

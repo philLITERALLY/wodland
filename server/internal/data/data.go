@@ -81,6 +81,7 @@ type CreateWOD struct {
 
 // WODFilter is used to model filterable aspects for WODs
 type WODFilter struct {
+	WODID    *int    `json:"wodID"`
 	Source    string    `json:"source"`
 	StartDate time.Time `json:"startDate"`
 	EndDate   time.Time `json:"endDate"`

@@ -142,9 +142,6 @@ func main() {
 		// Endpoint to get stats for every week
 		api.GET("/WeeklyStats", authMiddleware.MiddlewareFunc(), internalHTTP.GetWeeklyStats(dataSource))
 
-		// Endpoint to get single WOD and any attempts at it
-		api.GET("/WOD/:wodID", authMiddleware.MiddlewareFunc(), internalHTTP.GetWOD(dataSource))
-
 		// Endpoint to get WODs (can be filtered)
 		api.GET("/WODs", authMiddleware.MiddlewareFunc(), internalHTTP.GetWODs(dataSource))
 
