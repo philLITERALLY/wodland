@@ -33,11 +33,9 @@ func GetActivities(db *sql.DB, filters *data.ActivityFilter, userID int) ([]data
 	selectQuery := psql.
 		Select(activitiesColumns...).
 		From("activity").
-		Join("wod ON wod.id = activity.wod_id").
-		Where(sq.Eq{"user_id": userID})
+		Join("wod ON wod.id = activity.wod_id AND activity.user_id = ?", userID)
 
 	selectQuery = processActivityFilters(selectQuery, filters)
-	selectQuery = selectQuery.Limit(10)
 	sqlQuery, args, _ := selectQuery.ToSql()
 
 	rows, err := db.Query(sqlQuery, args...)

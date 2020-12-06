@@ -11,9 +11,27 @@ import './navbar.scss';
 function NavComponent(props) {
   const { logout, history } = props;
 
+  let header;
+  switch (history.location.pathname.split('?')[0]) {
+    case '/add-activity':
+      header = 'Add Activity';
+      break;
+    case '/search-wods':
+      header = 'Search WODs';
+      break;
+    case '/diary':
+      header = 'Diary';
+      break;
+    default:
+      header = 'WOD Land';
+      break;
+  }
+
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Navbar.Brand href="/">WOD Land</Navbar.Brand>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
+      { window.innerWidth > 991
+        ? <Navbar.Brand href="/">WOD Land</Navbar.Brand>
+        : <Navbar.Brand>{header}</Navbar.Brand>}
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto" activeKey={history.location.pathname}>

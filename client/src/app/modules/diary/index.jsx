@@ -38,36 +38,13 @@ class Diary extends React.Component {
   }
   /* eslint-enable react/no-danger */
 
-  static renderActivity(activity) {
-    return (
-      <TimelineEvent
-        title=""
-        createdAt={new Date(activity.date * 1000).toLocaleString()}
-        key={activity.id}
-        // bubbleStyle={{ border: (isBestScore || isBestTime) && '2px solid rgb(111, 186, 28)' }}
-        bubbleStyle={{ border: '' }}
-      >
-        <p>
-          <b>Time Taken: </b>
-          { secondsToString(activity.timeTaken) }
-        </p>
-        { Diary.renderField('Score', activity.score) }
-        { Diary.renderField('MEPs', activity.meps) }
-        { Diary.renderField('Exertion', activity.exertion) }
-        { Diary.renderArea('Notes', activity.notes) }
-        <Accordion>
-          { WODCard(activity.wod) }
-        </Accordion>
-      </TimelineEvent>
-    );
-  }
-
   constructor(props) {
     super(props);
 
     const today = new Date();
     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    this.props.getActivities({ startDate: startOfMonth, endDate: today });
+    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    this.props.getActivities({ startDate: startOfMonth, endDate: endOfMonth });
 
     this.state = { selectedDay: today, wods: [] };
 
@@ -79,8 +56,9 @@ class Diary extends React.Component {
   }
 
   newActivities() {
-    this.setState({ wods: _.flatMap(this.props.activities,
-      activity => new Date(activity.date * 1000))
+    this.setState({
+      wods: _.flatMap(this.props.activities,
+        activity => new Date(activity.date * 1000))
     });
   }
 
@@ -88,6 +66,28 @@ class Diary extends React.Component {
     const endOfMonth = new Date(startOfMonth.getFullYear(), startOfMonth.getMonth() + 1, 0);
     this.props.getActivities({ startDate: startOfMonth, endDate: endOfMonth });
     this.setState({ selectedDay: startOfMonth });
+  }
+
+  renderActivity(activity) {
+    const activityDate = new Date(activity.date * 1000);
+    const dateStr = activityDate.toLocaleTimeString([], { timeStyle: 'short' });
+    return (
+      <TimelineEvent
+        title=""
+        createdAt={dateStr}
+        key={activity.id}
+        bubbleStyle={{ border: '' }}
+      >
+        { Diary.renderField('Time Taken', secondsToString(activity.timeTaken))}
+        { Diary.renderField('Score', activity.score)}
+        { Diary.renderField('MEPs', activity.meps)}
+        { Diary.renderField('Exertion', activity.exertion)}
+        { Diary.renderArea('Notes', activity.notes)}
+        <Accordion>
+          {WODCard(activity.wod, null, false, this.props.history)}
+        </Accordion>
+      </TimelineEvent>
+    );
   }
 
   renderDay() {
@@ -103,13 +103,12 @@ class Diary extends React.Component {
 
     return activitiesToday.length === 0 ? (
       <h2 style={{ textAlign: 'center' }}>No WODs</h2>
-    ) : (
-      <Timeline>
-        {
-          sortedActivities.map((activity) => Diary.renderActivity(activity))
-        }
-      </Timeline>
-    );
+    )
+      : (
+        <Timeline>
+          {sortedActivities.map((activity) => this.renderActivity(activity))}
+        </Timeline>
+      );
   }
 
   render() {
@@ -139,7 +138,7 @@ class Diary extends React.Component {
         </div>
         <hr />
         <div style={{ margin: 'auto', paddingBottom: '1rem' }}>
-          { fetchedActivities && this.renderDay() }
+          {fetchedActivities && this.renderDay()}
         </div>
       </div>
     );
@@ -151,6 +150,7 @@ Diary.propTypes = {
   activities: PropTypes.array.isRequired,
   fetchingActivities: PropTypes.bool.isRequired,
   fetchedActivities: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 Diary.contextTypes = {

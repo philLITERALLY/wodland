@@ -55,18 +55,6 @@ export function getWeeklyStats() {
   };
 }
 
-export function getWOD(filters) {
-  console.log('getWOD filters: ', filters);
-  return () => instance().get('api/WOD/:wodID', { params: { ...filters } }).then(
-    (resp) => {
-      console.log('getWOD resp: ', resp);
-    },
-    (err) => {
-      console.log('getWOD err: ', err);
-    }
-  );
-}
-
 const createFetchingWODs = createAction(ActionTypes.FETCHING_WODS);
 const createFetchedWODs = createAction(ActionTypes.FETCHED_WODS);
 const createFailedFetchingWODs = createAction(ActionTypes.FAILED_FETCHING_WODS);
@@ -94,24 +82,32 @@ export function getActivities(filters) {
   };
 }
 
-export function AddActivity() {
-  return () => instance().post('api/WOD', { headers: authHeader() }).then(
-    (resp) => {
-      console.log('resp: ', resp);
-    },
-    (err) => {
-      console.log('err: ', err);
-    }
-  );
-}
+const createAddingActivity = createAction(ActionTypes.ADDING_ACTIVITY);
+const createAddedActivity = createAction(ActionTypes.ADDED_ACTIVITIES);
+const createFailedAddingActivities = createAction(ActionTypes.FAILED_ADDING_ACTIVITIES);
+export function addActivity(details, history) {
+  return dispatch => {
+    dispatch(createAddingActivity());
 
-export function addActivity() {
-  return () => instance().post('api/Activity', { headers: authHeader() }).then(
-    (resp) => {
-      console.log('resp: ', resp);
-    },
-    (err) => {
-      console.log('err: ', err);
+    // if wod already exists just add activity
+    // else create wod and then add activity
+    // after adding redirect to diary
+    if (details.wodID) {
+      instance().post('api/Activity', { ...details }).then(
+        (resp) => {
+          dispatch(createAddedActivity(resp));
+          history.push('/diary');
+        },
+        () => dispatch(createFailedAddingActivities())
+      );
+    } else {
+      instance().post('api/WOD', { ...details }).then(
+        (resp) => {
+          dispatch(createAddedActivity(resp));
+          history.push('/diary');
+        },
+        () => dispatch(createFailedAddingActivities())
+      );
     }
-  );
+  };
 }

@@ -29,9 +29,30 @@ class Home extends React.Component {
     this.setState({ selectedTab: eventKey });
   }
 
-  renderWeeklyStats() {
+  renderCharts() {
     const { weeklyStats } = this.props;
     const { selectedTab } = this.state;
+
+    return (
+      <div style={{ width: '90%', maxWidth: '500px', textAlign: 'center', margin: '1rem auto' }}>
+        <Nav justify variant="tabs" defaultActiveKey="WODs" onSelect={this.tabChange}>
+          <Nav.Item>
+            <Nav.Link eventKey="WODs">WODs</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="Time">Time</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="MEPs">MEPs</Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <BestStats weeklyStats={weeklyStats} selectedTab={selectedTab} />
+      </div>
+    );
+  }
+
+  renderWeeklyStats() {
+    const { weeklyStats } = this.props;
 
     const thisWeek = moment().format('W');
     const thisYear = moment().format('YYYY');
@@ -51,8 +72,8 @@ class Home extends React.Component {
         {weekStats.wods}
         <b>Time</b>
         {secondsToString(weekStats.timeTaken)}
-        { weekStats.meps && <b>MEPs</b> }
-        { weekStats.meps }
+        { weekStats.meps && <b>MEPs</b>}
+        { weekStats.meps}
       </div>
     );
 
@@ -60,26 +81,13 @@ class Home extends React.Component {
       <div>
         <Card style={{ width: '90%', maxWidth: '500px', textAlign: 'center', margin: '1rem auto' }}>
           <Card.Header>This Week</Card.Header>
-          <Card.Body>{ thisWeeksStats ? weekInfo(thisWeeksStats) : noActivitiesT }</Card.Body>
+          <Card.Body>{thisWeeksStats ? weekInfo(thisWeeksStats) : noActivitiesT}</Card.Body>
         </Card>
         <Card style={{ width: '90%', maxWidth: '500px', textAlign: 'center', margin: '1rem auto' }}>
           <Card.Header>Last Week</Card.Header>
-          <Card.Body>{ lastWeeksStats ? weekInfo(lastWeeksStats) : noActivitiesL }</Card.Body>
+          <Card.Body>{lastWeeksStats ? weekInfo(lastWeeksStats) : noActivitiesL}</Card.Body>
         </Card>
-        <div style={{ width: '90%', maxWidth: '500px', textAlign: 'center', margin: '1rem auto' }}>
-          <Nav justify variant="tabs" defaultActiveKey="WODs" onSelect={this.tabChange}>
-            <Nav.Item>
-              <Nav.Link eventKey="WODs">WODs</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="Time">Time</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="MEPs">MEPs</Nav.Link>
-            </Nav.Item>
-          </Nav>
-          <BestStats weeklyStats={weeklyStats} selectedTab={selectedTab} />
-        </div>
+        { weeklyStats.length > 0 && this.renderCharts()}
       </div>
     );
   }
@@ -98,7 +106,7 @@ class Home extends React.Component {
         <h1 style={{ textAlign: 'center', paddingTop: '10px' }}>
           Hey {localStorage.getItem('username')}
         </h1>
-        { !fetchedWeeklyStats ? spinner : this.renderWeeklyStats() }
+        { !fetchedWeeklyStats ? spinner : this.renderWeeklyStats()}
       </div>
     );
   }

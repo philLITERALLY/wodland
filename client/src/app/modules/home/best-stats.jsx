@@ -4,7 +4,9 @@ import { Card } from 'react-bootstrap';
 import _ from 'lodash';
 import { useForm } from 'react-hook-form';
 import moment from 'moment';
-import { VictoryChart, VictoryTheme, VictoryContainer, VictoryAxis, VictoryLine } from 'victory';
+import {
+  VictoryChart, VictoryTheme, VictoryContainer, VictoryLabel, VictoryAxis, VictoryLine
+} from 'victory';
 
 import { RangeValuesOpts, RangeTypeOpts } from '../../constants';
 import { DropDown } from '../shared/forms';
@@ -20,8 +22,10 @@ function BestStats(props) {
   let cardContent; let
     caseWODs;
   const chartData = [];
+  let domain = [];
   let tickFormat = (value) => `${Math.round(value)}`;
   const week = moment().subtract(tickValue - 1, tick).startOf('isoweek');
+  const endWeek = moment().startOf('isoweek');
 
   switch (selectedTab) {
     case 'WODs':
@@ -33,11 +37,12 @@ function BestStats(props) {
         </div>
       );
 
-      for (; week <= moment(); week.add(1, 'week')) {
+      for (; week <= endWeek; week.add(1, 'week')) {
         const value = _.find(weeklyStats, { week: week.week(), year: week.year() });
         chartData.push({ x: week.toDate(), y: (value && value.wods) || 0 });
       }
 
+      domain = [0, caseWODs.wods];
       break;
     case 'Time':
       caseWODs = _.maxBy(weeklyStats, 'timeTaken');
@@ -48,11 +53,12 @@ function BestStats(props) {
         </div>
       );
 
-      for (; week <= moment(); week.add(1, 'week')) {
+      for (; week <= endWeek; week.add(1, 'week')) {
         const value = _.find(weeklyStats, { week: week.week(), year: week.year() });
         chartData.push({ x: week.toDate(), y: (value && value.timeTaken / 60) || 0 });
       }
 
+      domain = [0, caseWODs.timeTaken / 60];
       tickFormat = (value) => `${Math.round(value)}\nmins`;
       break;
     case 'MEPs':
@@ -64,11 +70,12 @@ function BestStats(props) {
         </div>
       );
 
-      for (; week <= moment(); week.add(1, 'week')) {
+      for (; week <= endWeek; week.add(1, 'week')) {
         const value = _.find(weeklyStats, { week: week.week(), year: week.year() });
         chartData.push({ x: week.toDate(), y: (value && value.meps) || 0 });
       }
 
+      domain = [0, caseWODs.meps];
       break;
     default:
       cardContent = 'Error?!';
@@ -78,7 +85,7 @@ function BestStats(props) {
   return (
     <Card style={{ borderTop: '0' }}>
       <Card.Header>
-        { cardContent }
+        {cardContent}
       </Card.Header>
       <div style={{ display: 'flex', padding: '1rem' }}>
         <VictoryChart
@@ -90,8 +97,9 @@ function BestStats(props) {
             />
           )}
         >
+          <VictoryLabel text={`${selectedTab} per Week`} x={175} y={40} textAnchor="middle" />
           <VictoryAxis tickCount={3} />
-          <VictoryAxis dependentAxis tickCount={5} tickFormat={tickFormat} />
+          <VictoryAxis dependentAxis tickCount={5} tickFormat={tickFormat} domain={domain} />
           <VictoryLine
             style={{ data: { stroke: '#c43a31' }, parent: { border: '1px solid #ccc' } }}
             animate={{ duration: 1000, onLoad: { duration: 1000 } }}
@@ -103,10 +111,10 @@ function BestStats(props) {
       <Card.Footer>
         <div style={{ display: 'flex' }}>
           <div style={{ width: '50%', paddingRight: '5px' }}>
-            { DropDown(register, '', 'rangeValue', RangeValuesOpts) }
+            {DropDown(register, '', 'rangeValue', RangeValuesOpts)}
           </div>
           <div style={{ width: '50%', paddingLeft: '5px' }}>
-            { DropDown(register, '', 'rangeType', RangeTypeOpts) }
+            {DropDown(register, '', 'rangeType', RangeTypeOpts)}
           </div>
         </div>
       </Card.Footer>

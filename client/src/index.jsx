@@ -35,7 +35,7 @@ const PrivateRoute = ({ ...rest }) => (
           <App location={props.location} history={props.history}>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/add-activity" component={AddActivity} />
+              <Route exact path="/add-activity" component={AddActivity} />
               <Route path="/search-wods" component={SearchWODs} />
               <Route path="/diary" component={Diary} />
             </Switch>

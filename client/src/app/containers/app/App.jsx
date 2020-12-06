@@ -41,7 +41,9 @@ class App extends React.Component {
     return (
       <div className="body-bg">
         <Navbar history={this.props.history} />
-        {this.props.children}
+        <div style={{ marginTop: '56px' }}>
+          {this.props.children}
+        </div>
         {this.state.showInstallMessage && <IphoneInstallPWA />}
       </div>
     );

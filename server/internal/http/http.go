@@ -85,8 +85,13 @@ func AddWOD(dataSource *sql.DB) gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, fmt.Sprintf("Error with WOD details: %q", err))
 		}
 
+		if wodInput.CreationT == 0 {
+			c.JSON(http.StatusBadRequest, "Please provide a Creation Time")
+			return
+		}
+
 		if len(wodInput.Type) == 0 {
-			c.JSON(http.StatusBadRequest, "Please provide a Type (e.g. WOD, Girls, Hero)")
+			c.JSON(http.StatusBadRequest, "Please provide a Type (e.g. EMOM, AMRAP)")
 			return
 		}
 

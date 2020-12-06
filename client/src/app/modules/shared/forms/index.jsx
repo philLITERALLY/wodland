@@ -9,12 +9,11 @@ export const TextField = (register, label, name, type, note, required = false) =
     </Form.Label>
     <Form.Control
       name={name}
-      ref={register}
+      ref={register({ required })}
       type={type}
       as={type === 'textarea' ? 'textarea' : undefined}
       rows={type === 'textarea' ? 10 : undefined}
       autoComplete="off"
-      required={required}
     />
     {note && <Form.Text className="text-muted">{note}</Form.Text>}
   </Form.Group>
@@ -33,7 +32,12 @@ export const TimeFields = (register, setValue, getValues, label, name, names, re
       {required && <span style={{ color: 'red' }}> *</span>}
     </Form.Label>
     <div style={{ display: 'flex' }}>
-      <input name={names.total} type="number" ref={register} style={{ display: 'none' }} />
+      <input
+        name={names.total}
+        type="number"
+        ref={register({ required })}
+        style={{ display: 'none' }}
+      />
       <div style={{ width: '50%', marginRight: '5px' }}>
         <Form.Control
           name={names.mins}
@@ -41,7 +45,10 @@ export const TimeFields = (register, setValue, getValues, label, name, names, re
           onChange={(e) => {
             const mins = parseInt(e.target.value, 10) || 0;
             const currentLeftSecs = parseInt(getValues(names.secs), 10) || 0;
-            setValue(names.total, mins * 60 + currentLeftSecs);
+
+            const total = mins * 60 + currentLeftSecs;
+            if (total > 0) setValue(names.total, total);
+            else setValue(names.total, undefined);
           }}
           type="text"
           autoComplete="off"
@@ -55,7 +62,10 @@ export const TimeFields = (register, setValue, getValues, label, name, names, re
           onChange={(e) => {
             const secs = parseInt(e.target.value, 10) || 0;
             const currentLeftMins = parseInt(getValues(names.mins), 10) || 0;
-            setValue(names.total, currentLeftMins * 60 + secs);
+
+            const total = currentLeftMins * 60 + secs;
+            if (total > 0) setValue(names.total, total);
+            else setValue(names.total, undefined);
           }}
           type="text"
           autoComplete="off"
@@ -96,10 +106,17 @@ export const ExertionSlider = (register, watch, name) => {
   );
 };
 
-export const DropDown = (register, label, name, options, note) => (
+export const DropDown = (register, label, name, options, note, required = false) => (
   <Form.Group controlId={name}>
-    <Form.Label>{label}</Form.Label>
-    <Form.Control name={name} ref={register} as="select">
+    <Form.Label>
+      {label}
+      {required && <span style={{ color: 'red' }}> *</span>}
+    </Form.Label>
+    <Form.Control
+      name={name}
+      ref={register({ required })}
+      as="select"
+    >
       {options}
     </Form.Control>
     {note && <Form.Text className="text-muted">{note}</Form.Text>}
@@ -187,7 +204,10 @@ export const TimeRange = (register, setValue, getValues, label, name, leftNames,
             onChange={(e) => {
               const mins = parseInt(e.target.value, 10) || 0;
               const currentLeftSecs = parseInt(getValues(leftNames.secs), 10) || 0;
-              setValue(leftNames.total, mins * 60 + currentLeftSecs);
+
+              const total = mins * 60 + currentLeftSecs;
+              if (total > 0) setValue(leftNames.total, total);
+              else setValue(leftNames.total, undefined);
             }}
             type="text"
             autoComplete="off"
@@ -201,7 +221,10 @@ export const TimeRange = (register, setValue, getValues, label, name, leftNames,
             onChange={(e) => {
               const secs = parseInt(e.target.value, 10) || 0;
               const currentLeftMins = parseInt(getValues(leftNames.mins), 10) || 0;
-              setValue(leftNames.total, currentLeftMins * 60 + secs);
+
+              const total = currentLeftMins * 60 + secs;
+              if (total > 0) setValue(leftNames.total, total);
+              else setValue(leftNames.total, undefined);
             }}
             type="text"
             autoComplete="off"
@@ -223,7 +246,10 @@ export const TimeRange = (register, setValue, getValues, label, name, leftNames,
             onChange={(e) => {
               const mins = parseInt(e.target.value, 10) || 0;
               const currentRightSecs = parseInt(getValues(rightNames.secs), 10) || 0;
-              setValue(rightNames.total, mins * 60 + currentRightSecs);
+
+              const total = mins * 60 + currentRightSecs;
+              if (total > 0) setValue(rightNames.total, total);
+              else setValue(rightNames.total, undefined);
             }}
             type="text"
             autoComplete="off"
@@ -237,7 +263,10 @@ export const TimeRange = (register, setValue, getValues, label, name, leftNames,
             onChange={(e) => {
               const secs = parseInt(e.target.value, 10) || 0;
               const currentRightMins = parseInt(getValues(rightNames.mins), 10) || 0;
-              setValue(rightNames.total, currentRightMins * 60 + secs);
+
+              const total = currentRightMins * 60 + secs;
+              if (total > 0) setValue(rightNames.total, total);
+              else setValue(rightNames.total, undefined);
             }}
             type="text"
             autoComplete="off"

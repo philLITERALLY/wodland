@@ -10,12 +10,18 @@ import (
 
 // CreateWOD will create a WOD (and add an activity if supplied)
 func CreateWOD(db *sql.DB, WOD data.CreateWOD, userID int) error {
+	typeStr := fmt.Sprintf("{%s}", WOD.Type[0])
 	wodQuery := psql.
 		Insert("wod").
 		Columns("source, creation_t, wod, picture, type, created_by").
-		Values(WOD.Source, WOD.CreationT, WOD.Exercise, WOD.Picture, fmt.Sprint("'{%s}'", WOD.Type), userID).
+		Values(WOD.Source, WOD.CreationT, WOD.Exercise, WOD.Picture, typeStr, userID).
 		Suffix("RETURNING \"id\"")
 	sqlWODQuery, wodArgs, _ := wodQuery.ToSql()
+
+	fmt.Printf("All: %v\n", WOD.Type)
+	fmt.Printf("[0]: %v\n", WOD.Type[0])
+	fmt.Printf("sqlWODQuery: %v\n", sqlWODQuery)
+	fmt.Printf("wodArgs: %v\n", wodArgs)
 
 	var wodID int
 	wodErr := db.QueryRow(sqlWODQuery, wodArgs...).Scan(&wodID)

@@ -25,7 +25,7 @@ const reducers = handleActions({
     _.assign({}, state, {
       fetchingWeeklyStats: false,
       fetchedWeeklyStats: true,
-      weeklyStats: action.payload
+      weeklyStats: action.payload || []
     })
   ),
 
@@ -75,7 +75,6 @@ const reducers = handleActions({
   ),
 
   [ActionTypes.FETCHED_WODS]: (state, action) => (
-    // add any new activities in to state
     _.assign({}, state, {
       fetchingWODs: false,
       fetchedWODs: true,
@@ -91,22 +90,50 @@ const reducers = handleActions({
       wods: undefined
     })
   ),
+
+  /* Adding Activity */
+  [ActionTypes.ADDING_ACTIVITY]: state => (
+    _.assign({}, state, {
+      addingActivity: true,
+      failedAddingActivity: false,
+      addedActivity: false
+    })
+  ),
+
+  [ActionTypes.FAILED_ADDING_ACTIVITIES]: state => (
+    _.assign({}, state, {
+      addingActivity: false,
+      failedAddingActivity: true,
+      addedActivity: false
+    })
+  ),
+
+  [ActionTypes.ADDED_ACTIVITIES]: state => (
+    _.assign({}, state, {
+      addingActivity: false,
+      addedActivity: true
+    })
+  ),
 }, {
   /* Weekly Stats */
   fetchingWeeklyStats: false,
   failedfetchingWeeklyStats: false,
   fetchedWeeklyStats: false,
   weeklyStats: [],
-  /* Activities */
+  /* Fetching Activities */
   fetchingActivities: false,
   failedfetchingActivities: false,
   fetchedActivities: false,
   activities: [],
-  /* WODs */
+  /* Fetching WODs */
   fetchingWODs: false,
   failedfetchingWODs: false,
   fetchedWODs: false,
-  wods: undefined
+  wods: undefined,
+  /* Adding Activity */
+  addingActivity: false,
+  failedAddingActivity: false,
+  addedActivity: false,
 });
 
 export default reducers;
