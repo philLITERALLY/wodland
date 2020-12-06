@@ -27,24 +27,41 @@
     {
       "name": "Add a WOD",
       "short_name": "WOD",
-      "description": "Add details of a WOD",
-      "url": "/add-wod",
-      "icons": [{ "src": "add-wod.png", "sizes": "192x192" }]
+      "description": "Add details of an activity",
+      "url": "/add-activity",
+      "icons": [
+        {
+          "src": "add-activity.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Search WODs",
       "short_name": "WODs",
-      "description": "Search for a specific wod",
+      "description": "Search for a specific WOD",
       "url": "/search-wods",
-      "icons": [{ "src": "search-wod.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "search-wod.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "View Diary",
       "short_name": "Diary",
       "description": "View diary for recent activities",
       "url": "/diary",
-      "icons": [{ "src": "diary.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "diary.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ],
-  "categories": ["exercise"]
+  "categories": [
+    "exercise"
+  ]
 }

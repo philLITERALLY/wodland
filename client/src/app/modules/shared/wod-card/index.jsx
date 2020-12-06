@@ -41,12 +41,12 @@ function timelineEvent(activity, attempts, bestTimeActivity, bestScoreActivity) 
     >
       <p>
         <b>Time Taken: </b>
-        { secondsToString(activity.timeTaken) }
+        {secondsToString(activity.timeTaken)}
       </p>
-      { renderField('Score', activity.score) }
-      { renderField('MEPs', activity.meps) }
-      { renderField('Exertion', activity.exertion) }
-      { renderArea('Notes', activity.notes) }
+      { renderField('Score', activity.score)}
+      { renderField('MEPs', activity.meps)}
+      { renderField('Exertion', activity.exertion)}
+      { renderArea('Notes', activity.notes)}
     </TimelineEvent>
   );
 }
@@ -77,24 +77,24 @@ function WODCard(wod, index, displayIndex) {
       </Accordion.Toggle>
       <Accordion.Collapse eventKey={wod.id}>
         <Card.Body>
-          { renderField('Created On', wod.creationT && new Date(wod.creationT * 1000).toDateString()) }
-          { renderField('Type', wod.type.join(', ')) }
-          { renderField('Source', wod.source) }
-          { renderArea('Details', wod.exercise) }
-          { wod.picture && (
+          {renderField('Created On', wod.creationT && new Date(wod.creationT * 1000).toDateString())}
+          {renderField('Type', wod.type.join(', '))}
+          {renderField('Source', wod.source)}
+          {renderArea('Details', wod.exercise)}
+          {wod.picture && (
             <div style={{ marginBottom: '1rem' }}>
               <p><b>Picture: </b></p>
               <img alt="ass" src="https://lh3.googleusercontent.com/5qz2R45BhQG2RCFf-4nc6jNRi5oyd7DaCtHdWkYq6Mbgt0ogq-M9Hl6rgZ7_Ta9TxUoZ9HziVaDfQiEuRpzzjqalhcEGk7v6WjlCO35cKpTU8EHSbBCMRHCOScxCH2aCurEPtglaH9JMniltM0Te7zTyQNQqjCJdpQbz8fcYPMK3LT3H0KGs4g5zTbBI4mJoCI6nG2o5u4Uph_J27KIHyKsNDBc4T9wAA8srFgHADsgrWinEusX_QKL4uO3IHos4HAOi_jmO_3j-NgikgIlWxzTU5xnyhMjbTDhMQTCo18HOptuDUMi7NnXT6bNELBMgZt8Hnsn7pQjR61jI61kjwgmz2oY9eCdMzJWF944hgAHWEWTkjqAVK9HxAg47WOs0_NvTH5o_81os7c45DxIH9SmOPzQTIKUTtYI8GOnDYdoaz4Gt2IfQBc4RwIgofMxaTcaocfUJhm7rf2IbTs4Mgsd_zLnqU4uUVEHx6n8h23yP752SxgxgAoRhuvaCUPiuoK1nvbJlxzYOlBUKALKWj89nLL90vSKWTaFuI5Mkk9FJfHzZWN-UY-k06pSgoX9UhDctmxf2VTY_t9zfguP9WcokVP9uxarQShA3i_MV4_zMN9xIjTJbY3VTREqnd9Z50L8FON6mvVmyw56Ir7liLZoHpzeAOVx3JHPYIojngbY3zgcUj1y2bCyp1QDxZRLyRXBGoAFl05NYpQdnL_9xp_u43ryTePwOJbCO684ozm5FmCYupJkOU_o=w273-h591-no?authuser=0" />
             </div>
           )}
-          { renderField('Number of Attempts', attempts) }
-          { renderField('Best Time', bestTime) }
-          { renderField('Best Score', bestScore) }
-          { wod.activities && <p><b>Attempts: </b></p> }
-          { wod.activities && (
+          {renderField('Number of Attempts', attempts)}
+          {renderField('Best Time', bestTime)}
+          {renderField('Best Score', bestScore)}
+          {wod.activities && <p><b>Attempts: </b></p>}
+          {wod.activities && (
             <Timeline>
               { wod.activities.map((activity) =>
-                timelineEvent(activity, attempts, bestTimeActivity, bestScoreActivity)) }
+                timelineEvent(activity, attempts, bestTimeActivity, bestScoreActivity))}
             </Timeline>
           )}
         </Card.Body>

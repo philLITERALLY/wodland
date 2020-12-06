@@ -94,7 +94,7 @@ export function getActivities(filters) {
   };
 }
 
-export function addWOD() {
+export function AddActivity() {
   return () => instance().post('api/WOD', { headers: authHeader() }).then(
     (resp) => {
       console.log('resp: ', resp);

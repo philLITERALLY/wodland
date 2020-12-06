@@ -18,7 +18,7 @@ function NavComponent(props) {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto" activeKey={history.location.pathname}>
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/add-wod">Add WOD</Nav.Link>
+          <Nav.Link href="/add-activity">Add Activity</Nav.Link>
           <Nav.Link href="/search-wods">Search WODs</Nav.Link>
         </Nav>
         <Nav activeKey={history.location.pathname}>

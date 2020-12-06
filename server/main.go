@@ -126,7 +126,7 @@ func main() {
 	router.Use(static.Serve("/", static.LocalFile("./web", true)))
 	router.Use(static.Serve("/login", static.LocalFile("./web", true)))
 	router.Use(static.Serve("/diary", static.LocalFile("./web", true)))
-	router.Use(static.Serve("/add-wod", static.LocalFile("./web", true)))
+	router.Use(static.Serve("/add-activity", static.LocalFile("./web", true)))
 	router.Use(static.Serve("/search-wods", static.LocalFile("./web", true)))
 	router.Use(static.Serve("/service-worker", static.LocalFile("./service-worker.js", true)))
 	router.Use(static.Serve("/service-worker.js", static.LocalFile("./service-worker.js", true)))
@@ -148,7 +148,7 @@ func main() {
 		// Endpoint to get WODs (can be filtered)
 		api.GET("/Activities", authMiddleware.MiddlewareFunc(), internalHTTP.GetActivities(dataSource))
 
-		// Endpoint to create a WOD (and add an attempt if supplied)
+		// Endpoint to create a WOD (and add an activity if supplied)
 		api.POST("/WOD", authMiddleware.MiddlewareFunc(), internalHTTP.AddWOD(dataSource))
 
 		// Endpoint to add an Activity

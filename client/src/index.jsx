@@ -10,8 +10,8 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import App from './app/containers/app/App';
 import Login from './app/modules/login';
 import Home from './app/modules/home';
-import AddWOD from './app/modules/wods/add-wod';
-import SearchWODs from './app/modules/wods/search-wods';
+import AddActivity from './app/modules/add-activity';
+import SearchWODs from './app/modules/search-wods';
 import Diary from './app/modules/diary';
 
 import reducers from './app/reducers';
@@ -35,7 +35,7 @@ const PrivateRoute = ({ ...rest }) => (
           <App location={props.location} history={props.history}>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/add-wod" component={AddWOD} />
+              <Route path="/add-activity" component={AddActivity} />
               <Route path="/search-wods" component={SearchWODs} />
               <Route path="/diary" component={Diary} />
             </Switch>

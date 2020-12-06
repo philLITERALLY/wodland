@@ -8,7 +8,7 @@ import (
 	"github.com/philLITERALLY/wodland-service/internal/data"
 )
 
-// CreateWOD will create a WOD (and add an attempt if supplied)
+// CreateWOD will create a WOD (and add an activity if supplied)
 func CreateWOD(db *sql.DB, WOD data.CreateWOD, userID int) error {
 	wodQuery := psql.
 		Insert("wod").

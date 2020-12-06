@@ -68,7 +68,7 @@ func GetWODs(dataSource *sql.DB) gin.HandlerFunc {
 	}
 }
 
-// AddWOD will create a WOD (and add an attempt if supplied)
+// AddWOD will create a WOD (and add an activity if supplied)
 func AddWOD(dataSource *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		wodInput := data.CreateWOD{}
