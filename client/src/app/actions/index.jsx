@@ -10,7 +10,7 @@ function authHeader() {
 }
 
 const instance = () => axios.create({
-  baseURL: 'https://sleepy-beach-56365.herokuapp.com/',
+  baseURL: 'https://wod-land.herokuapp.com/',
   headers: authHeader()
 });
 

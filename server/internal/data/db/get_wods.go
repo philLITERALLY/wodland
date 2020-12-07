@@ -43,12 +43,9 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 	selectQuery = selectQuery.Limit(10)
 	sqlQuery, args, _ := selectQuery.ToSql()
 
-	fmt.Printf("selectQuery: %v \n", sqlQuery)
-	fmt.Printf("args: %v \n", args)
-
 	rows, err := db.Query(sqlQuery, args...)
 	if err != nil {
-		fmt.Printf("db err: %v \n", err)
+		fmt.Errorf("db err: %v \n", err)
 		return nil, err
 	}
 
@@ -67,12 +64,12 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 		)
 
 		if err := rows.Scan(
-			&wod.ID, 
-			&wod.Source, 
-			&wod.CreationT, 
-			&wod.Exercise, 
-			&wod.Picture, 
-			pq.Array(&wod.Type), 
+			&wod.ID,
+			&wod.Source,
+			&wod.CreationT,
+			&wod.Exercise,
+			&wod.Picture,
+			pq.Array(&wod.Type),
 			&wod.CreatedBy,
 			&ActivityID,
 			&ActivityDate,
@@ -82,14 +79,14 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 			&ActivityNotes,
 			&ActivityScore,
 		); err != nil {
-			fmt.Printf("scan err: %v \n", err)
+			fmt.Errorf("scan err: %v \n", err)
 			return nil, err
 		}
 
 		// if wod has activities associated add them to list and store wod
 		// else just store the wod
 		if ActivityID != nil {
-			activity := data.Activity{ 
+			activity := data.Activity{
 				ID: *ActivityID,
 				ActivityInput: data.ActivityInput{
 					Date:      *ActivityDate,
@@ -107,7 +104,7 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 			if activities, ok := wodActivities[wod.ID]; ok {
 				wodActivities[wod.ID] = append(activities, activity)
 			} else {
-				wodActivities[wod.ID] = []data.Activity{activity} 
+				wodActivities[wod.ID] = []data.Activity{activity}
 				dbWODs = append(dbWODs, wod)
 			}
 		} else {
@@ -117,7 +114,7 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 
 	// loop through stored wods and add any associated activities
 	for index, wod := range dbWODs {
-		if activities, ok := wodActivities[wod.ID]; ok {			
+		if activities, ok := wodActivities[wod.ID]; ok {
 			wod.Activities = &activities
 			dbWODs[index] = wod
 		}
@@ -186,7 +183,7 @@ func processExerciseFilter(baseQuery sq.SelectBuilder, filters *data.WODFilter) 
 		}
 		baseQuery = baseQuery.Where(clause)
 	}
-	
+
 	return baseQuery
 }
 

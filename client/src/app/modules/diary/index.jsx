@@ -31,7 +31,7 @@ class Diary extends React.Component {
       <div>
         <p><b>{label}: </b></p>
         <Card style={{ marginBottom: '1rem', width: 'fit-content' }}>
-          <div style={{ padding: '0.5rem' }} dangerouslySetInnerHTML={{ __html: value }} />
+          <div style={{ padding: '0.5rem', whiteSpace: 'pre-line' }} dangerouslySetInnerHTML={{ __html: value }} />
         </Card>
       </div>
     );

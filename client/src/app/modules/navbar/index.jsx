@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Navbar, Nav } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
 
 import * as actionCreators from '../../actions';
 
@@ -62,7 +63,9 @@ NavComponent.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
+const NavComponentWithRouter = withRouter(NavComponent);
+
 export default connect(
   null,
   dispatch => bindActionCreators(actionCreators, dispatch),
-)(NavComponent);
+)(NavComponentWithRouter);

@@ -35,7 +35,7 @@ const PrivateRoute = ({ ...rest }) => (
           <App location={props.location} history={props.history}>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/add-activity" component={AddActivity} />
+              <Route path="/add-activity" component={AddActivity} />
               <Route path="/search-wods" component={SearchWODs} />
               <Route path="/diary" component={Diary} />
             </Switch>
@@ -52,16 +52,12 @@ PrivateRoute.propTypes = {
 
 ReactDOM.render(
   <Provider store={store}>
-    <div>
-      <BrowserRouter>
-        <div>
-          <Switch>
-            <Route path="/login" component={Login} />
-            <PrivateRoute path="/" />
-          </Switch>
-        </div>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <PrivateRoute path="/" />
+      </Switch>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );

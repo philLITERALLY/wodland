@@ -25,8 +25,8 @@ class App extends React.Component {
     const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
 
     // Detect if we've asked to install in the last 5 days
-    const today = moment().toDate();
-    const lastPrompt = moment(localStorage.getItem('installPrompt'));
+    const today = new Date();
+    const lastPrompt = new Date(localStorage.getItem('installPrompt'));
     const days = moment(today).diff(lastPrompt, 'days');
     const installReminder = Number.isNaN(days) || days > 5;
 
@@ -39,9 +39,21 @@ class App extends React.Component {
 
   renderApp() {
     return (
-      <div className="body-bg">
+      <div className="body-bg" style={{ backgroundColor: '#FFF' }}>
+        <div
+          style={{
+            position: 'fixed',
+            right: 0,
+            left: 0,
+            zIndex: 1,
+            height: '900px',
+            marginTop: '-900px',
+            backgroundColor: '#343a40',
+            paddingTop: '56px'
+          }}
+        />
         <Navbar history={this.props.history} />
-        <div style={{ marginTop: '56px' }}>
+        <div style={{ marginTop: '56px', minHeight: 'calc(100vh - 56px)' }}>
           {this.props.children}
         </div>
         {this.state.showInstallMessage && <IphoneInstallPWA />}

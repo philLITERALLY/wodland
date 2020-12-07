@@ -3,7 +3,7 @@ import React from 'react';
 import Modal from '../modal';
 import { useModal } from '../../hooks/use-modal';
 
-import image from '../../../../assets/images/logo192.png';
+import image from '../../../../assets/images/logo512.png';
 import share from '../../../../assets/images/AppleShare.png';
 
 import './pwa.scss';
@@ -14,10 +14,7 @@ export const InstallPWA = () => {
   React.useEffect(() => { setModalOpen(true); }, []);
 
   return (
-    <Modal
-      isActive={modalOpen}
-      className="notification-card"
-    >
+    <Modal isActive={modalOpen} className="notification-card">
       <div className="modal-container modal-container-small modal-flex modal-flex-middle modal-flex-center modal-height-1-1" style={{ height: '100%' }}>
         <div style={{ maxWidth: '400px' }} className="modal-card modal-card-default modal-card-body">
           <div style={{ marginTop: '-50px' }} className="modal-text-center">

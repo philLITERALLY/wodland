@@ -124,7 +124,7 @@ export const DropDown = (register, label, name, options, note, required = false)
 );
 
 export const BoolRadioButtons = (register, setValue, label, name, note) => (
-  <Form.Group controlId="picture">
+  <Form.Group controlId={name}>
     <Form.Label>{label}</Form.Label>
     <input name={name} type="hidden" ref={register} />
     <div style={{ display: 'flex' }}>

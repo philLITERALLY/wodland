@@ -6,7 +6,8 @@ require (
 	github.com/Masterminds/squirrel v1.4.0
 	github.com/appleboy/gin-jwt v2.5.0+incompatible // indirect
 	github.com/appleboy/gin-jwt/v2 v2.6.4
-	github.com/gin-gonic/contrib v0.0.0-20201101042839-6a891bf89f19 // indirect
+	github.com/gin-contrib/gzip v0.0.3
+	github.com/gin-gonic/contrib v0.0.0-20201101042839-6a891bf89f19
 	github.com/gin-gonic/gin v1.6.3
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/heroku/x v0.0.26

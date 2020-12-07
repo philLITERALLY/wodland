@@ -29,7 +29,7 @@ func GetWeeklyStats(dataSource *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID, err := GetUserID(c)
 		if err != nil {
-			fmt.Printf("%+v", err)
+			fmt.Errorf("%+v", err)
 			c.JSON(http.StatusBadRequest, err)
 		}
 
@@ -48,7 +48,7 @@ func GetWODs(dataSource *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID, err := GetUserID(c)
 		if err != nil {
-			fmt.Printf("%+v", err)
+			fmt.Errorf("%+v", err)
 			c.JSON(http.StatusBadRequest, err)
 		}
 
@@ -75,13 +75,13 @@ func AddWOD(dataSource *sql.DB) gin.HandlerFunc {
 
 		userID, err := GetUserID(c)
 		if err != nil {
-			fmt.Printf("%+v", err)
+			fmt.Errorf("%+v", err)
 			c.JSON(http.StatusBadRequest, err)
 		}
 
 		err = c.Bind(&wodInput)
 		if err != nil {
-			fmt.Printf("error binding request input: %+v", err)
+			fmt.Errorf("error binding request input: %+v", err)
 			c.JSON(http.StatusBadRequest, fmt.Sprintf("Error with WOD details: %q", err))
 		}
 
@@ -124,7 +124,7 @@ func GetActivities(dataSource *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID, err := GetUserID(c)
 		if err != nil {
-			fmt.Printf("%+v", err)
+			fmt.Errorf("%+v", err)
 			c.JSON(http.StatusBadRequest, err)
 		}
 
@@ -151,13 +151,13 @@ func AddActivity(dataSource *sql.DB) gin.HandlerFunc {
 
 		userID, err := GetUserID(c)
 		if err != nil {
-			fmt.Printf("%+v", err)
+			fmt.Errorf("%+v", err)
 			c.JSON(http.StatusBadRequest, err)
 		}
 
 		err = c.Bind(&activityInput)
 		if err != nil {
-			fmt.Printf("error binding request input: %+v", err)
+			fmt.Errorf("error binding request input: %+v", err)
 			c.JSON(http.StatusBadRequest, fmt.Sprintf("Error with Activity details: %q", err))
 		}
 

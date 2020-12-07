@@ -18,11 +18,6 @@ func CreateWOD(db *sql.DB, WOD data.CreateWOD, userID int) error {
 		Suffix("RETURNING \"id\"")
 	sqlWODQuery, wodArgs, _ := wodQuery.ToSql()
 
-	fmt.Printf("All: %v\n", WOD.Type)
-	fmt.Printf("[0]: %v\n", WOD.Type[0])
-	fmt.Printf("sqlWODQuery: %v\n", sqlWODQuery)
-	fmt.Printf("wodArgs: %v\n", wodArgs)
-
 	var wodID int
 	wodErr := db.QueryRow(sqlWODQuery, wodArgs...).Scan(&wodID)
 	if wodErr != nil {

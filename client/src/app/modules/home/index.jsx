@@ -34,7 +34,7 @@ class Home extends React.Component {
     const { selectedTab } = this.state;
 
     return (
-      <div style={{ width: '90%', maxWidth: '500px', textAlign: 'center', margin: '1rem auto' }}>
+      <div style={{ width: '90%', maxWidth: '500px', textAlign: 'center', margin: '0 auto', padding: '1rem 0' }}>
         <Nav justify variant="tabs" defaultActiveKey="WODs" onSelect={this.tabChange}>
           <Nav.Item>
             <Nav.Link eventKey="WODs">WODs</Nav.Link>
@@ -103,7 +103,7 @@ class Home extends React.Component {
 
     return (
       <div>
-        <h1 style={{ textAlign: 'center', paddingTop: '10px' }}>
+        <h1 style={{ textAlign: 'center', paddingTop: '10px', wordBreak: 'break-word' }}>
           Hey {localStorage.getItem('username')}
         </h1>
         { !fetchedWeeklyStats ? spinner : this.renderWeeklyStats()}

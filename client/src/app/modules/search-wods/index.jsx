@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useForm } from 'react-hook-form';
+import { elementScrollIntoView } from 'seamless-scroll-polyfill';
 
 import * as actionCreators from '../../actions';
 import { DropDown, TextField, BoolRadioButtons, DateRange, TimeRange, TextFieldRange } from '../shared/forms';
@@ -53,7 +54,7 @@ function SearchWODs(props) {
 
   React.useEffect(() => {
     // if wods change scroll to them
-    if (wods) foundWODs.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (wods) elementScrollIntoView(foundWODs.current, ({ behavior: 'smooth', block: 'start' }));
   });
 
   const renderWODDetails = () => (
@@ -68,7 +69,7 @@ function SearchWODs(props) {
           {TextField(register, 'Source', 'source', 'text', 'Where was the WOD from? e.g. Crossfit, Berserk Online, The Girls, Hero WOD')}
           {TextField(register, 'Include Exercises', 'includeExercise', 'text', 'Enter any exercises to include (separate with comma)')}
           {TextField(register, 'Exclude Exercises', 'excludeExercise', 'text', 'Enter any exercises to exclude (separate with comma)')}
-          {BoolRadioButtons(register, setValue, 'Picture Included', 'picture')}
+          { /* BoolRadioButtons(register, setValue, 'Picture Included', 'picture') */ }
           {BoolRadioButtons(register, setValue, 'Attempted Before', 'tried')}
         </Card.Body>
       </Accordion.Collapse>

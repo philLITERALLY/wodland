@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Form, Button } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import image from '../../../assets/images/logo512.png';
+import IphoneInstallPWA from '../shared/install-pwa';
 import * as actionCreators from '../../actions';
 
 import './login.scss';
@@ -13,9 +16,37 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { username: '', password: '', invalid: false };
+    this.state = {
+      showInstallMessage: false,
+      username: '',
+      password: '',
+      invalid: false
+    };
 
     _.bindAll(this, 'loginPost');
+  }
+
+  componentDidMount() {
+    // Detects if device is on iOS
+    const isIos = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(userAgent);
+    };
+
+    // Detects if device is in standalone mode
+    const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+    // Detect if we've asked to install in the last 5 days
+    const today = moment().toDate();
+    const lastPrompt = moment(localStorage.getItem('installPrompt'));
+    const days = moment(today).diff(lastPrompt, 'days');
+    const installReminder = Number.isNaN(days) || days > 5;
+
+    // Checks if should display install popup notification:
+    if (isIos() && !isInStandaloneMode() && installReminder) {
+      localStorage.setItem('installPrompt', today);
+      this.setState({ showInstallMessage: true });
+    }
   }
 
   validateForm() {
@@ -37,9 +68,11 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="background">
+      <div className="background" style={{ backgroundColor: '#FFF', height: '100vh' }}>
         <div className="login">
-          <h1 className="header">WOD Land</h1>
+          <div style={{ textAlign: 'center', paddingBottom: '20px' }}>
+            <img src={image} className="modal-border-rounded" height="100" width="100" alt="Install PWA" />
+          </div>
           <Form onSubmit={this.loginPost}>
             <Form.Group size="lg" controlId="username">
               <Form.Label>Username</Form.Label>
@@ -68,6 +101,7 @@ class Login extends React.Component {
             </Button>
           </Form>
         </div>
+        {this.state.showInstallMessage && <IphoneInstallPWA />}
       </div>
     );
   }

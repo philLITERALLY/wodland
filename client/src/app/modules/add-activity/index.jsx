@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useForm } from 'react-hook-form';
 import queryString from 'query-string';
+import { windowScrollTo } from 'seamless-scroll-polyfill';
 
 import ShowWOD from './show-wod';
 import AddWOD from './add-wod';
@@ -16,7 +17,7 @@ import './activity.scss';
 
 function AddActivity(props) {
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    windowScrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, []);
 
   const { addActivity, history, addingActivity, location } = props;
@@ -46,7 +47,7 @@ function AddActivity(props) {
           newResult[name] = [value];
           return newResult;
         case 'pictureFile':
-          if (value.length !== 0) newResult[name] = value;
+          if (value.length !== 0) newResult[name] = value[0];
           return newResult;
         case 'timeTaken':
         case 'score':
@@ -78,14 +79,16 @@ function AddActivity(props) {
           {`Missing required fields (${Object.keys(errors).join(', ')})`}
         </div>
       )}
-      <Button
-        variant="primary"
-        type="submit"
-        style={{ margin: '10px auto', display: 'block' }}
-        disabled={addingActivity}
-      >
-        {addingActivity ? spinner : 'Save'}
-      </Button>
+      <div style={{ padding: '10px 0' }}>
+        <Button
+          variant="primary"
+          type="submit"
+          style={{ margin: '0 auto', display: 'block' }}
+          disabled={addingActivity}
+        >
+          {addingActivity ? spinner : 'Save'}
+        </Button>
+      </div>
     </Form>
   );
 }

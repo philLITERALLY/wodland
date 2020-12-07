@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpring, useChain, animated as a } from 'react-spring';
+import { windowScrollTo } from 'seamless-scroll-polyfill';
 
 import usePortal from '../../hooks/use-portal';
 
@@ -24,7 +25,7 @@ const Modal = ({ isActive, children, ...props }) => {
         const scrollY = document.body.style.top;
         document.body.style.position = '';
         document.body.style.top = '';
-        window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+        windowScrollTo(0, parseInt(scrollY || '0', 10) * -1);
       }
       return () => clearTimeout(timer);
     }, [isActive]
@@ -38,6 +39,7 @@ const Modal = ({ isActive, children, ...props }) => {
     delay: isActive ? 0 : 200,
     opacity: isActive ? 1 : 0,
     top: isActive ? 0 : 100,
+    zIndex: 99,
   });
 
   const modalCard = useSpring({
@@ -45,6 +47,7 @@ const Modal = ({ isActive, children, ...props }) => {
     delay: isActive ? 100 : 0,
     opacity: isActive ? 1 : 0,
     top: isActive ? 0 : 300,
+    zIndex: 99,
   });
 
   useChain([containerRef, cardRef]);

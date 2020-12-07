@@ -8,6 +8,7 @@ import (
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
+	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	_ "github.com/heroku/x/hmetrics/onload"
@@ -48,6 +49,7 @@ func main() {
 	}
 
 	router := gin.Default()
+	router.Use(gzip.Gzip(gzip.DefaultCompression))
 	router.Use(corsMiddleware())
 	router.Use(gin.Logger())
 
@@ -87,7 +89,7 @@ func main() {
 			// Fetch login user
 			user, err := internalDB.GetUser(dataSource, loginVals)
 			if err != nil {
-				fmt.Printf("fetching user err: %v \n", err)
+				fmt.Errorf("fetching user err: %v \n", err)
 				return nil, jwt.ErrFailedAuthentication
 			}
 
@@ -121,15 +123,12 @@ func main() {
 	}
 
 	// Serving static content from web - we will populate this from within the docker container
-	fmt.Printf("local?! %v\n", static.LocalFile("./web", true))
-	fmt.Printf("service-worker?! %v\n", static.LocalFile("./service-worker.js", true))
+	// List all pages so that if user navigates direct to the page it is served okay
 	router.Use(static.Serve("/", static.LocalFile("./web", true)))
 	router.Use(static.Serve("/login", static.LocalFile("./web", true)))
 	router.Use(static.Serve("/diary", static.LocalFile("./web", true)))
 	router.Use(static.Serve("/add-activity", static.LocalFile("./web", true)))
 	router.Use(static.Serve("/search-wods", static.LocalFile("./web", true)))
-	router.Use(static.Serve("/service-worker", static.LocalFile("./service-worker.js", true)))
-	router.Use(static.Serve("/service-worker.js", static.LocalFile("./service-worker.js", true)))
 
 	// Set up /api endpoint group
 	api := router.Group("/api")

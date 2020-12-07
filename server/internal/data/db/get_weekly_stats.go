@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 
 	sq "github.com/Masterminds/squirrel"
 
@@ -21,9 +20,6 @@ func GetWeeklyStats(db *sql.DB, userID int) ([]data.WeekStats, error) {
 		GroupBy("year, week").
 		OrderBy("year, week")
 	sqlStatsQuery, args, _ := statsQuery.ToSql()
-
-	fmt.Printf("\n sqlStatsQuery: %v", sqlStatsQuery)
-	fmt.Printf("\n args: %v", args)
 
 	rows, err := db.Query(sqlStatsQuery, args...)
 	if err != nil {
