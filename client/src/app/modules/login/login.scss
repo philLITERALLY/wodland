@@ -1,3 +1,8 @@
+.background {
+  background-color: rgb(255, 255, 255);
+  height: 100%;
+}
+
 .login {
   position: absolute;
   width: 320px;
@@ -6,6 +11,13 @@
   top: 50%;
   left: 50%;
   margin: -170px 0 0 -160px;
+  font-weight: 700;
+  color: #61dafb;
+}
+
+.loginLogo {
+  text-align: center;
+  padding-bottom: 20px;
 }
 
 .header {

@@ -1,4 +1,27 @@
+.noActivities {
+  text-align: center;
+}
+
+.dayPickerContainer {
+  margin: auto;
+  width: fit-content;
+}
+
+.dayContainer {
+  margin: auto;
+  padding-bottom: 1rem;
+}
+
 .DayPicker-Footer {
-    margin: auto;
-    width: fit-content;
+  margin: auto;
+  width: fit-content;
+}
+
+.DayPicker-TodayButton {
+  color: #61dafb;
+  font-weight: 700;
+}
+
+.DayPicker-Day--today {
+  color: #61dafb;
 }

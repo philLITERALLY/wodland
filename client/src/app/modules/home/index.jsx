@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Spinner, Nav } from 'react-bootstrap';
+import { Card, Nav } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 
-import * as actionCreators from '../../actions';
 import BestStats from './best-stats';
+import { StyledSpinner } from '../shared/spinner';
+import * as actionCreators from '../../actions';
 import { secondsToString } from '../../utils/helpers';
 
 import './home.scss';
@@ -34,15 +35,15 @@ class Home extends React.Component {
     const { selectedTab } = this.state;
 
     return (
-      <div style={{ width: '90%', maxWidth: '500px', textAlign: 'center', margin: '0 auto', padding: '1rem 0' }}>
+      <div className="chartNav">
         <Nav justify variant="tabs" defaultActiveKey="WODs" onSelect={this.tabChange}>
-          <Nav.Item>
+          <Nav.Item className="navItem">
             <Nav.Link eventKey="WODs">WODs</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item className="navItem">
             <Nav.Link eventKey="Time">Time</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item className="navItem">
             <Nav.Link eventKey="MEPs">MEPs</Nav.Link>
           </Nav.Item>
         </Nav>
@@ -67,7 +68,7 @@ class Home extends React.Component {
     const noActivitiesT = 'No activities this week';
     const noActivitiesL = 'No activities last week';
     const weekInfo = (weekStats) => (
-      <div style={{ display: 'grid' }}>
+      <div className="weekInfo">
         <b>WODs</b>
         {weekStats.wods}
         <b>Time</b>
@@ -79,12 +80,12 @@ class Home extends React.Component {
 
     return (
       <div>
-        <Card style={{ width: '90%', maxWidth: '500px', textAlign: 'center', margin: '1rem auto' }}>
-          <Card.Header>This Week</Card.Header>
+        <Card className="weekCard">
+          <Card.Header className="cardHeader">This Week</Card.Header>
           <Card.Body>{thisWeeksStats ? weekInfo(thisWeeksStats) : noActivitiesT}</Card.Body>
         </Card>
-        <Card style={{ width: '90%', maxWidth: '500px', textAlign: 'center', margin: '1rem auto' }}>
-          <Card.Header>Last Week</Card.Header>
+        <Card className="weekCard">
+          <Card.Header className="cardHeader">Last Week</Card.Header>
           <Card.Body>{lastWeeksStats ? weekInfo(lastWeeksStats) : noActivitiesL}</Card.Body>
         </Card>
         { weeklyStats.length > 0 && this.renderCharts()}
@@ -95,18 +96,12 @@ class Home extends React.Component {
   render() {
     const { fetchedWeeklyStats } = this.props;
 
-    const spinner = (
-      <div style={{ textAlign: 'center' }}>
-        <Spinner as="span" animation="border" size="lg" role="status" aria-hidden="true" style={{ margin: '1rem auto' }} />
-      </div>
-    );
-
     return (
       <div>
-        <h1 style={{ textAlign: 'center', paddingTop: '10px', wordBreak: 'break-word' }}>
+        <h1 className="header">
           Hey {localStorage.getItem('username')}
         </h1>
-        { !fetchedWeeklyStats ? spinner : this.renderWeeklyStats()}
+        { fetchedWeeklyStats ? this.renderWeeklyStats() : StyledSpinner }
       </div>
     );
   }

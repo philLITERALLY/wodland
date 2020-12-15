@@ -1,6 +1,45 @@
-.DayPicker-Footer {
-  margin: auto;
-  width: fit-content;
+.header {
+  text-align: center;
+  padding-top: 1rem;
+  word-break: break-word;
+  color: #61dafb;
+  margin: 0 1rem;
+}
+
+.cardHeader {
+  background-color: #61dafb !important;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.chartNav {
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  margin: 0px auto;
+  padding: 1rem 0px;
+}
+
+.navItem {
+  a.nav-link {
+    font-weight: 700;
+  }
+
+  a.nav-link.active {
+    background-color: #61dafb !important;
+    color: #ffffff;
+  }
+}
+
+.weekInfo {
+  display: grid;
+}
+
+.weekCard {
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  margin: 1rem auto;
 }
 
 div.nav-tabs {

@@ -39,7 +39,7 @@ const Modal = ({ isActive, children, ...props }) => {
     delay: isActive ? 0 : 200,
     opacity: isActive ? 1 : 0,
     top: isActive ? 0 : 100,
-    zIndex: 99,
+    zIndex: 9999,
   });
 
   const modalCard = useSpring({
@@ -47,7 +47,7 @@ const Modal = ({ isActive, children, ...props }) => {
     delay: isActive ? 100 : 0,
     opacity: isActive ? 1 : 0,
     top: isActive ? 0 : 300,
-    zIndex: 99,
+    zIndex: 9999,
   });
 
   useChain([containerRef, cardRef]);

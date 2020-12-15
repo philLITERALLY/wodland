@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Accordion, Card } from 'react-bootstrap';
+import { Accordion } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DayPicker from 'react-day-picker';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
 
+import { renderField, renderArea } from '../shared/read-only';
 import WODCard from '../shared/wod-card';
 import * as actionCreators from '../../actions';
 import { secondsToString } from '../../utils/helpers';
@@ -20,23 +21,6 @@ class Diary extends React.Component {
       && date1.getMonth() === date2.getMonth()
       && date1.getDate() === date2.getDate();
   }
-
-  static renderField(label, value) {
-    return value && <p><b>{label}: </b> {value}</p>;
-  }
-
-  /* eslint-disable react/no-danger */
-  static renderArea(label, value) {
-    return value && (
-      <div>
-        <p><b>{label}: </b></p>
-        <Card style={{ marginBottom: '1rem', width: 'fit-content' }}>
-          <div style={{ padding: '0.5rem', whiteSpace: 'pre-line' }} dangerouslySetInnerHTML={{ __html: value }} />
-        </Card>
-      </div>
-    );
-  }
-  /* eslint-enable react/no-danger */
 
   constructor(props) {
     super(props);
@@ -76,13 +60,13 @@ class Diary extends React.Component {
         title=""
         createdAt={dateStr}
         key={activity.id}
-        bubbleStyle={{ border: '' }}
+        bubbleStyle={{ border: '', backgroundColor: '#61dafb' }}
       >
-        { Diary.renderField('Time Taken', secondsToString(activity.timeTaken))}
-        { Diary.renderField('Score', activity.score)}
-        { Diary.renderField('MEPs', activity.meps)}
-        { Diary.renderField('Exertion', activity.exertion)}
-        { Diary.renderArea('Notes', activity.notes)}
+        { renderField('Time Taken', secondsToString(activity.timeTaken))}
+        { renderField('Score', activity.score)}
+        { renderField('MEPs', activity.meps)}
+        { renderField('Exertion', activity.exertion)}
+        { renderArea('Notes', activity.notes)}
         <Accordion>
           {WODCard(activity.wod, null, false, this.props.history)}
         </Accordion>
@@ -101,14 +85,11 @@ class Diary extends React.Component {
 
     const sortedActivities = _.sortBy(activitiesToday, 'date');
 
-    return activitiesToday.length === 0 ? (
-      <h2 style={{ textAlign: 'center' }}>No WODs</h2>
-    )
-      : (
-        <Timeline>
-          {sortedActivities.map((activity) => this.renderActivity(activity))}
-        </Timeline>
-      );
+    return activitiesToday.length === 0 ? <h2 className="noActivities">No WODs</h2> : (
+      <Timeline>
+        {sortedActivities.map((activity) => this.renderActivity(activity))}
+      </Timeline>
+    );
   }
 
   render() {
@@ -119,13 +100,13 @@ class Diary extends React.Component {
 
     const modifiers = { wods, selectedDay };
     const modifiersStyles = {
-      wods: { color: '#E76F51' },
-      selectedDay: { color: '#264653', backgroundColor: '#2A9D8F' }
+      wods: { color: '#e76f51' },
+      selectedDay: { color: '#0489ae', backgroundColor: '#61dafb' }
     };
 
     return (
       <div>
-        <div style={{ margin: 'auto', width: 'fit-content' }}>
+        <div className="dayPickerContainer">
           <DayPicker
             month={new Date()}
             modifiers={modifiers}
@@ -137,7 +118,7 @@ class Diary extends React.Component {
           />
         </div>
         <hr />
-        <div style={{ margin: 'auto', paddingBottom: '1rem' }}>
+        <div className="dayContainer">
           {fetchedActivities && this.renderDay()}
         </div>
       </div>

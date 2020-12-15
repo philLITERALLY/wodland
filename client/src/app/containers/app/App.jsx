@@ -39,21 +39,10 @@ class App extends React.Component {
 
   renderApp() {
     return (
-      <div className="body-bg" style={{ backgroundColor: '#FFF' }}>
-        <div
-          style={{
-            position: 'fixed',
-            right: 0,
-            left: 0,
-            zIndex: 1,
-            height: '900px',
-            marginTop: '-900px',
-            backgroundColor: '#343a40',
-            paddingTop: '56px'
-          }}
-        />
+      <div className="bodyBackground">
+        <div className="iphoneHeader" />
         <Navbar history={this.props.history} />
-        <div style={{ marginTop: '56px', minHeight: 'calc(100vh - 56px)' }}>
+        <div>
           {this.props.children}
         </div>
         {this.state.showInstallMessage && <IphoneInstallPWA />}

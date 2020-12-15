@@ -29,11 +29,11 @@ function NavComponent(props) {
   }
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
+    <Navbar className="colorNav" collapseOnSelect expand="lg" variant="dark" sticky="top">
       { window.innerWidth > 991
         ? <Navbar.Brand href="/">WOD Land</Navbar.Brand>
         : <Navbar.Brand>{header}</Navbar.Brand>}
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Toggle className="colorToggle" aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto" activeKey={history.location.pathname}>
           <Nav.Link href="/">Home</Nav.Link>

@@ -1,11 +1,15 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
+import './forms.scss';
+
+const requiredIcon = (required) => required && <span className="requiredIcon"> *</span>;
+
 export const TextField = (register, label, name, type, note, required = false) => (
   <Form.Group controlId={name}>
     <Form.Label>
       {label}
-      {required && <span style={{ color: 'red' }}> *</span>}
+      {requiredIcon(required)}
     </Form.Label>
     <Form.Control
       name={name}
@@ -29,16 +33,11 @@ export const TimeFields = (register, setValue, getValues, label, name, names, re
   <Form.Group controlId={name}>
     <Form.Label>
       {label}
-      {required && <span style={{ color: 'red' }}> *</span>}
+      {requiredIcon(required)}
     </Form.Label>
-    <div style={{ display: 'flex' }}>
-      <input
-        name={names.total}
-        type="number"
-        ref={register({ required })}
-        style={{ display: 'none' }}
-      />
-      <div style={{ width: '50%', marginRight: '5px' }}>
+    <div className="flexContainer">
+      <input name={names.total} type="number" ref={register({ required })} className="hiddenInput" />
+      <div className="rightHalfMargin">
         <Form.Control
           name={names.mins}
           ref={register}
@@ -55,7 +54,7 @@ export const TimeFields = (register, setValue, getValues, label, name, names, re
         />
         <Form.Text className="text-muted">Minutes</Form.Text>
       </div>
-      <div style={{ width: '50%', marginLeft: '5px' }}>
+      <div className="leftHalfMargin">
         <Form.Control
           name={names.secs}
           ref={register}
@@ -97,10 +96,10 @@ export const ExertionSlider = (register, watch, name) => {
         max="9"
         defaultValue="0"
       />
-      <div style={{ display: 'flex' }}>
-        <span style={{ width: '33.33%', textAlign: 'left' }}>Easy</span>
-        <span style={{ width: '33.33%', textAlign: 'center' }}>Moderate</span>
-        <span style={{ width: '33.33%', textAlign: 'right' }}>Max Effort</span>
+      <div className="flexContainer">
+        <span className="thirdLeft">Easy</span>
+        <span className="thirdCenter">Moderate</span>
+        <span className="thirdRight">Max Effort</span>
       </div>
     </Form.Group>
   );
@@ -110,7 +109,7 @@ export const DropDown = (register, label, name, options, note, required = false)
   <Form.Group controlId={name}>
     <Form.Label>
       {label}
-      {required && <span style={{ color: 'red' }}> *</span>}
+      {requiredIcon(required)}
     </Form.Label>
     <Form.Control
       name={name}
@@ -127,8 +126,8 @@ export const BoolRadioButtons = (register, setValue, label, name, note) => (
   <Form.Group controlId={name}>
     <Form.Label>{label}</Form.Label>
     <input name={name} type="hidden" ref={register} />
-    <div style={{ display: 'flex' }}>
-      <div style={{ width: '50%', marginRight: '5px' }}>
+    <div className="flexContainer">
+      <div className="rightHalfMargin">
         <Form.Check
           name={name}
           onClick={() => setValue(name, '')}
@@ -137,7 +136,7 @@ export const BoolRadioButtons = (register, setValue, label, name, note) => (
           id={`${name}NA`}
         />
       </div>
-      <div style={{ width: '50%', marginRight: '5px' }}>
+      <div className="rightHalfMargin">
         <Form.Check
           name={name}
           onClick={() => setValue(name, false)}
@@ -146,7 +145,7 @@ export const BoolRadioButtons = (register, setValue, label, name, note) => (
           id={`${name}NO`}
         />
       </div>
-      <div style={{ width: '50%', marginRight: '5px' }}>
+      <div className="rightHalfMargin">
         <Form.Check
           name={name}
           onClick={() => setValue(name, true)}
@@ -166,8 +165,8 @@ export const DateRange = (
   (
     <Form.Group controlId={name}>
       <Form.Label>{label}</Form.Label>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div style={{ width: '47%' }}>
+      <div className="centerFlexContainer">
+        <div className="nearHalfContainer">
           <Form.Control
             name={leftName}
             ref={register}
@@ -176,8 +175,8 @@ export const DateRange = (
             defaultValue={leftDate}
           />
         </div>
-        <span style={{ width: '6%', textAlign: 'center' }}>-</span>
-        <div style={{ width: '47%' }}>
+        <span className="dashContainer">-</span>
+        <div className="nearHalfContainer">
           <Form.Control
             name={rightName}
             ref={register}
@@ -194,10 +193,10 @@ export const DateRange = (
 export const TimeRange = (register, setValue, getValues, label, name, leftNames, rightNames) => (
   <Form.Group controlId={name}>
     <Form.Label>{label}</Form.Label>
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <div style={{ display: 'flex', width: '47%' }}>
-        <input name={leftNames.total} type="number" ref={register} style={{ display: 'none' }} />
-        <div style={{ width: '50%', marginRight: '5px' }}>
+    <div className="centerFlexContainer">
+      <div className="nearHalfFlexContainer">
+        <input name={leftNames.total} type="number" ref={register} className="hiddenInput" />
+        <div className="rightHalfMargin">
           <Form.Control
             name={leftNames.mins}
             ref={register}
@@ -214,7 +213,7 @@ export const TimeRange = (register, setValue, getValues, label, name, leftNames,
           />
           <Form.Text className="text-muted">Minutes</Form.Text>
         </div>
-        <div style={{ width: '50%', marginLeft: '5px' }}>
+        <div className="leftHalfMargin">
           <Form.Control
             name={leftNames.secs}
             ref={register}
@@ -233,13 +232,11 @@ export const TimeRange = (register, setValue, getValues, label, name, leftNames,
         </div>
       </div>
 
-      <div style={{ display: 'flex', width: '6%' }}>
-        <span style={{ textAlign: 'center', width: '100%', marginTop: '-24px' }}>-</span>
-      </div>
+      <span className="dashContainer">-</span>
 
-      <div style={{ display: 'flex', width: '47%' }}>
-        <input name={rightNames.total} type="number" ref={register} style={{ display: 'none' }} />
-        <div style={{ width: '50%', marginRight: '5px' }}>
+      <div className="nearHalfFlexContainer">
+        <input name={rightNames.total} type="number" ref={register} className="hiddenInput" />
+        <div className="rightHalfMargin">
           <Form.Control
             name={rightNames.mins}
             ref={register}
@@ -256,7 +253,7 @@ export const TimeRange = (register, setValue, getValues, label, name, leftNames,
           />
           <Form.Text className="text-muted">Minutes</Form.Text>
         </div>
-        <div style={{ width: '50%', marginLeft: '5px' }}>
+        <div className="leftHalfMargin">
           <Form.Control
             name={rightNames.secs}
             ref={register}
@@ -281,12 +278,12 @@ export const TimeRange = (register, setValue, getValues, label, name, leftNames,
 export const TextFieldRange = (register, label, name, leftName, rightName, type, note) => (
   <Form.Group controlId={name}>
     <Form.Label>{label}</Form.Label>
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <div style={{ width: '47%' }}>
+    <div className="centerFlexContainer">
+      <div className="nearHalfContainer">
         <Form.Control name={leftName} ref={register} type={type} autoComplete="off" />
       </div>
-      <span style={{ width: '6%', textAlign: 'center' }}>-</span>
-      <div style={{ width: '47%' }}>
+      <span className="dashContainer">-</span>
+      <div className="nearHalfContainer">
         <Form.Control name={rightName} ref={register} type={type} autoComplete="off" />
       </div>
     </div>

@@ -15,9 +15,9 @@ export const InstallPWA = () => {
 
   return (
     <Modal isActive={modalOpen} className="notification-card">
-      <div className="modal-container modal-container-small modal-flex modal-flex-middle modal-flex-center modal-height-1-1" style={{ height: '100%' }}>
-        <div style={{ maxWidth: '400px' }} className="modal-card modal-card-default modal-card-body">
-          <div style={{ marginTop: '-50px' }} className="modal-text-center">
+      <div className="modal-container modal-container-small modal-flex modal-flex-middle modal-flex-center modal-flex-height modal-height-1-1">
+        <div className="modal-card modal-card-default modal-card-body modal-card-width">
+          <div className="modal-text-center modal-text-margin">
             <img src={image} className="modal-border-rounded" height="72" width="72" alt="Install PWA" />
           </div>
           <div className="modal-margin-top modal-text-center">
@@ -31,8 +31,7 @@ export const InstallPWA = () => {
               Tap
               <img
                 src={share}
-                style={{ margin: 'auto 4px 8px' }}
-                className="modal-display-inline-block"
+                className="modal-display-inline-block modal-display-margin"
                 alt="Add to homescreen"
                 height="20"
                 width="20"

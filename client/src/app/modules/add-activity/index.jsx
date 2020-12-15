@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Accordion, Form, Button, Spinner } from 'react-bootstrap';
+import { Accordion, Form, Button } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,6 +11,7 @@ import { windowScrollTo } from 'seamless-scroll-polyfill';
 import ShowWOD from './show-wod';
 import AddWOD from './add-wod';
 import AddAttempt from './add-attempt';
+import { DefaultSpinner } from '../shared/spinner';
 import * as actionCreators from '../../actions';
 
 import './activity.scss';
@@ -67,7 +68,6 @@ function AddActivity(props) {
     addActivity(details, history);
   };
 
-  const spinner = <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />;
   return (
     <Form onSubmit={handleSubmit(onSubmit)} noValidate>
       <Accordion defaultActiveKey={wodID ? '1' : '0'}>
@@ -75,18 +75,13 @@ function AddActivity(props) {
         {AddAttempt(wodID, register, watch, setValue, getValues)}
       </Accordion>
       {!_.isEmpty(errors) && (
-        <div style={{ color: 'red', textAlign: 'center', paddingTop: '10px' }}>
+        <div className="error">
           {`Missing required fields (${Object.keys(errors).join(', ')})`}
         </div>
       )}
-      <div style={{ padding: '10px 0' }}>
-        <Button
-          variant="primary"
-          type="submit"
-          style={{ margin: '0 auto', display: 'block' }}
-          disabled={addingActivity}
-        >
-          {addingActivity ? spinner : 'Save'}
+      <div className="saveContainer">
+        <Button variant="primary" type="submit" className="saveBtn" disabled={addingActivity}>
+          {addingActivity ? DefaultSpinner : 'Save'}
         </Button>
       </div>
     </Form>

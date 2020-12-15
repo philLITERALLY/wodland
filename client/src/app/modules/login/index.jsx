@@ -68,9 +68,9 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="background" style={{ backgroundColor: '#FFF', height: '100vh' }}>
+      <div className="background">
         <div className="login">
-          <div style={{ textAlign: 'center', paddingBottom: '20px' }}>
+          <div className="loginLogo">
             <img src={image} className="modal-border-rounded" height="100" width="100" alt="Install PWA" />
           </div>
           <Form onSubmit={this.loginPost}>

@@ -1,102 +1,118 @@
 .modal-flex {
-	display: flex;
+  display: flex;
 }
 
 .modal-flex-center {
-	justify-content: center;
+  justify-content: center;
 }
 
 .modal-flex-middle {
-	align-items: center;
+  align-items: center;
+}
+
+.modal-flex-height {
+  height: 100%;
 }
 
 .modal-card {
-	position: relative;
-	box-sizing: border-box;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .modal-card-body {
-	padding: 30px;
+  padding: 30px;
 }
 
 .modal-card-default {
-	background: #fff;
-	color: #666;
+  background: #fff;
+  color: #666;
+}
+
+.modal-card-width {
+  max-width: 400px;
 }
 
 .notification-card .modal-card {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	border-radius: 4px;
-	margin: auto 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 4px;
+  margin: auto 24px;
 }
 
 .modal-text-center {
-	text-align: center !important;
+  text-align: center !important;
 }
 
-*+.modal-margin,
+.modal-text-margin {
+  margin-top: -50px;
+}
+
+* + .modal-margin,
 .modal-margin-top {
-	margin-top: 20px !important;
+  margin-top: 20px !important;
 }
 
 .modal-margin-remove-top {
-	margin-top: 0!important;
+  margin-top: 0 !important;
 }
 
 .modal-text-muted {
-	color: #999!important;
+  color: #999 !important;
 }
 
 .modal-h5,
 h5 {
-	font-size: 16px;
-	line-height: 1.4;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
 .modal-text-small {
-	font-size: .875rem;
-	line-height: 1.5;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .modal-display-inline-block {
-	display: inline-block!important;
+  display: inline-block !important;
 }
 
-.modal-card-body>:last-child,
-.modal-card-footer>:last-child,
-.modal-card-header>:last-child {
-	margin-bottom: 0;
+.modal-display-margin {
+  margin: auto 4px 8px;
+}
+
+.modal-card-body > :last-child,
+.modal-card-footer > :last-child,
+.modal-card-header > :last-child {
+  margin-bottom: 0;
 }
 
 .modal-button:not(:disabled) {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .modal-button-link {
-	padding: 0;
-	line-height: 1.5;
-	background: none;
-	color: #4ab0d7 !important;
+  padding: 0;
+  line-height: 1.5;
+  background: none;
+  color: #4ab0d7 !important;
 }
 
 .modal-button {
-	margin: 0;
-	border: none;
-	overflow: visible;
-	font: inherit;
-	color: inherit;
-	text-transform: none;
-	-webkit-appearance: none;
-	border-radius: 0;
-	display: inline-block;
-	box-sizing: border-box;
-	padding: 0 30px;
-	vertical-align: middle;
-	font-size: 16px;
-	line-height: 40px;
-	text-align: center;
-	text-decoration: none !important;
+  margin: 0;
+  border: none;
+  overflow: visible;
+  font: inherit;
+  color: inherit;
+  text-transform: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0 30px;
+  vertical-align: middle;
+  font-size: 16px;
+  line-height: 40px;
+  text-align: center;
+  text-decoration: none !important;
 }

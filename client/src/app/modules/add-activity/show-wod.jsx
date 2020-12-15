@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Accordion, Card, Spinner } from 'react-bootstrap';
+import { Accordion, Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { WODCardBody } from '../shared/wod-card';
+import { DefaultSpinner } from '../shared/spinner';
 import * as actionCreators from '../../actions';
 
 import './activity.scss';
@@ -18,7 +19,6 @@ class ShowWOD extends React.Component {
   render() {
     const { fetchedWODs, wods } = this.props;
 
-    const spinner = <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />;
     return (
       <Card>
         <Accordion.Toggle as={Card.Header} eventKey="0">
@@ -26,7 +26,7 @@ class ShowWOD extends React.Component {
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="0">
           <Card.Body>
-            { fetchedWODs ? WODCardBody(wods[0]) : spinner }
+            { fetchedWODs ? WODCardBody(wods[0]) : DefaultSpinner }
           </Card.Body>
         </Accordion.Collapse>
       </Card>

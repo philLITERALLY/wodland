@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Accordion, Card, Form, Button, Spinner } from 'react-bootstrap';
+import { Accordion, Card, Form, Button } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { elementScrollIntoView } from 'seamless-scroll-polyfill';
 
 import * as actionCreators from '../../actions';
+import { DefaultSpinner } from '../shared/spinner';
 import { DropDown, TextField, BoolRadioButtons, DateRange, TimeRange, TextFieldRange } from '../shared/forms';
 import WODCard from '../shared/wod-card';
 import { WODTypeOpts } from '../../constants';
@@ -95,7 +96,6 @@ function SearchWODs(props) {
     </Card>
   );
 
-  const spinner = <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />;
   const wodList = wods && wods.length > 0
     ? (
       <Accordion>
@@ -103,8 +103,8 @@ function SearchWODs(props) {
       </Accordion>
     )
     : (
-      <div style={{ margin: 'auto', paddingBottom: '1rem' }}>
-        <h2 style={{ textAlign: 'center' }}>No matching WODs</h2>
+      <div className="noWODs">
+        <h2 className="noWODsText">No matching WODs</h2>
       </div>
     );
 
@@ -117,9 +117,9 @@ function SearchWODs(props) {
         <Accordion>
           {watch('tried') === 'true' && renderBestAttempt()}
         </Accordion>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Button variant="primary" type="submit" style={{ margin: '10px auto', display: 'block' }} disabled={fetchingWODs}>
-            {fetchingWODs ? spinner : 'Search WODs'}
+        <div className="wodSearch">
+          <Button variant="primary" type="submit" className="wodSearchBtn" disabled={fetchingWODs}>
+            {fetchingWODs ? DefaultSpinner : 'Search WODs'}
           </Button>
         </div>
       </Form>

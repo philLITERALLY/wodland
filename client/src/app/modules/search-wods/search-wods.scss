@@ -1,0 +1,18 @@
+.noWODs {
+  margin: auto;
+  padding-bottom: 1rem;
+
+  .noWODsText {
+    text-align: center;
+  }
+}
+
+.wodSearch {
+  display: flex;
+  align-items: center;
+
+  .wodSearchBtn {
+    margin: 10px auto;
+    display: block;
+  }
+}

@@ -1,0 +1,55 @@
+.requiredIcon {
+  color: red;
+}
+
+.flexContainer {
+  display: flex;
+}
+
+.centerFlexContainer {
+  display: flex;
+  align-items: center;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.dashContainer {
+  width: 6%;
+  text-align: center;
+}
+
+.nearHalfContainer {
+  width: 47%;
+}
+
+.nearHalfFlexContainer {
+  width: 47%;
+  display: flex;
+}
+
+.leftHalfMargin {
+  width: 50%;
+  margin-left: 5px;
+}
+
+.rightHalfMargin {
+  width: 50%;
+  margin-right: 5px;
+}
+
+.thirdLeft {
+  width: 33.33%;
+  text-align: left;
+}
+
+.thirdCenter {
+  width: 33.33%;
+  text-align: center;
+}
+
+.thirdRight {
+  width: 33.33%;
+  text-align: right;
+}
