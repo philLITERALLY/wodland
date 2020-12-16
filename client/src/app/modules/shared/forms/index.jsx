@@ -5,23 +5,39 @@ import './forms.scss';
 
 const requiredIcon = (required) => required && <span className="requiredIcon"> *</span>;
 
-export const TextField = (register, label, name, type, note, required = false) => (
-  <Form.Group controlId={name}>
-    <Form.Label>
-      {label}
-      {requiredIcon(required)}
-    </Form.Label>
-    <Form.Control
-      name={name}
-      ref={register({ required })}
-      type={type}
-      as={type === 'textarea' ? 'textarea' : undefined}
-      rows={type === 'textarea' ? 10 : undefined}
-      autoComplete="off"
-    />
-    {note && <Form.Text className="text-muted">{note}</Form.Text>}
-  </Form.Group>
-);
+export const TextField = (register, label, name, type, note, required = false) => {
+  const today = new Date().toISOString();
+  let max;
+  switch (type) {
+    case 'date':
+      max = today.slice(0, 10);
+      break;
+    case 'datetime-local':
+      max = today.slice(0, today.length - 1);
+      break;
+    default:
+      break;
+  }
+
+  return (
+    <Form.Group controlId={name}>
+      <Form.Label>
+        {label}
+        {requiredIcon(required)}
+      </Form.Label>
+      <Form.Control
+        name={name}
+        ref={register({ required: required && `The "${label}" field is required` })}
+        type={type}
+        as={type === 'textarea' ? 'textarea' : undefined}
+        rows={type === 'textarea' ? 10 : undefined}
+        autoComplete="off"
+        max={max}
+      />
+      {note && <Form.Text className="text-muted">{note}</Form.Text>}
+    </Form.Group>
+  );
+};
 
 export const PhotoUpload = (register, label, name) => (
   <Form.Group controlId={name}>
@@ -36,7 +52,12 @@ export const TimeFields = (register, setValue, getValues, label, name, names, re
       {requiredIcon(required)}
     </Form.Label>
     <div className="flexContainer">
-      <input name={names.total} type="number" ref={register({ required })} className="hiddenInput" />
+      <input
+        name={names.total}
+        type="number"
+        ref={register({ required: required && `The "${label}" field is required` })}
+        className="hiddenInput"
+      />
       <div className="rightHalfMargin">
         <Form.Control
           name={names.mins}
@@ -49,15 +70,17 @@ export const TimeFields = (register, setValue, getValues, label, name, names, re
             if (total > 0) setValue(names.total, total);
             else setValue(names.total, undefined);
           }}
-          type="text"
+          type="number"
           autoComplete="off"
         />
         <Form.Text className="text-muted">Minutes</Form.Text>
       </div>
-      <div className="leftHalfMargin">
+      <div className="rightHalfMargin">
         <Form.Control
           name={names.secs}
-          ref={register}
+          ref={register({
+            max: { value: 59, message: `The "${label}" "Seconds" field should be less than 60` }
+          })}
           onChange={(e) => {
             const secs = parseInt(e.target.value, 10) || 0;
             const currentLeftMins = parseInt(getValues(names.mins), 10) || 0;
@@ -66,7 +89,7 @@ export const TimeFields = (register, setValue, getValues, label, name, names, re
             if (total > 0) setValue(names.total, total);
             else setValue(names.total, undefined);
           }}
-          type="text"
+          type="number"
           autoComplete="off"
         />
         <Form.Text className="text-muted">Seconds</Form.Text>
@@ -113,7 +136,7 @@ export const DropDown = (register, label, name, options, note, required = false)
     </Form.Label>
     <Form.Control
       name={name}
-      ref={register({ required })}
+      ref={register({ required: required && `The "${label}" field is required` })}
       as="select"
     >
       {options}
@@ -213,7 +236,7 @@ export const TimeRange = (register, setValue, getValues, label, name, leftNames,
           />
           <Form.Text className="text-muted">Minutes</Form.Text>
         </div>
-        <div className="leftHalfMargin">
+        <div className="rightHalfMargin">
           <Form.Control
             name={leftNames.secs}
             ref={register}
@@ -253,7 +276,7 @@ export const TimeRange = (register, setValue, getValues, label, name, leftNames,
           />
           <Form.Text className="text-muted">Minutes</Form.Text>
         </div>
-        <div className="leftHalfMargin">
+        <div className="rightHalfMargin">
           <Form.Control
             name={rightNames.secs}
             ref={register}

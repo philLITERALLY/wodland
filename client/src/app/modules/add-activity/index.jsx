@@ -74,11 +74,7 @@ function AddActivity(props) {
         {wodID ? <ShowWOD wodID={wodID} /> : AddWOD(register)}
         {AddAttempt(wodID, register, watch, setValue, getValues)}
       </Accordion>
-      {!_.isEmpty(errors) && (
-        <div className="error">
-          {`Missing required fields (${Object.keys(errors).join(', ')})`}
-        </div>
-      )}
+      { _.map(errors, (error, index) => <div className="error" key={index}>{error.message}</div>) }
       <div className="saveContainer">
         <Button variant="primary" type="submit" className="saveBtn" disabled={addingActivity}>
           {addingActivity ? DefaultSpinner : 'Save'}

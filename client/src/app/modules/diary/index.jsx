@@ -49,7 +49,7 @@ class Diary extends React.Component {
   monthChange(startOfMonth) {
     const endOfMonth = new Date(startOfMonth.getFullYear(), startOfMonth.getMonth() + 1, 0);
     this.props.getActivities({ startDate: startOfMonth, endDate: endOfMonth });
-    this.setState({ selectedDay: startOfMonth });
+    this.setState({ selectedDay: undefined });
   }
 
   renderActivity(activity) {
@@ -76,6 +76,8 @@ class Diary extends React.Component {
 
   renderDay() {
     const { props: { activities }, state: { selectedDay } } = this;
+
+    if (!selectedDay) return <h2 className="noActivities">Select a Day</h2>;
 
     const activitiesToday = _.reduce(activities, (result, activity) => {
       const activityDate = new Date(activity.date * 1000);

@@ -60,7 +60,7 @@ export function WODCardBody(wod) {
 
   return (
     <div>
-      {renderField('Created On', wod.creationT && new Date(wod.creationT * 1000).toDateString())}
+      {renderField('Created On', wod.creationT && new Date(wod.creationT * 1000).toLocaleDateString())}
       {renderField('Type', wod.type.join(', '))}
       {renderField('Source', wod.source)}
       {renderArea('Details', wod.exercise)}
