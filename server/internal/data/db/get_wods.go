@@ -20,7 +20,11 @@ var wodColumns = []string{
 	"wod.picture",
 	"wod.type",
 	"wod.created_by",
+}
+
+var activityColumns = []string{
 	"activity.id",
+	"activity.wod_id",
 	"activity.date",
 	"activity.time_taken",
 	"activity.meps",
@@ -31,84 +35,71 @@ var wodColumns = []string{
 
 // GetWODs will get and return WODs
 func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error) {
+	var wodIDs = []int{}
 	var dbWODs = []data.WOD{}
 
-	selectQuery := psql.
+	wodsQuery := psql.
 		Select(wodColumns...).
 		From("wod").
 		LeftJoin("activity ON activity.wod_id = wod.id AND activity.user_id = ?", userID).
+		GroupBy("wod.id").
 		OrderBy("random()")
 
-	selectQuery = processWODFilters(selectQuery, filters)
-	selectQuery = selectQuery.Limit(10)
-	sqlQuery, args, _ := selectQuery.ToSql()
+	wodsQuery = processWODFilters(wodsQuery, filters)
+	wodsQuery = wodsQuery.Limit(10)
+	sqlWodsQuery, wodsArgs, _ := wodsQuery.ToSql()
 
-	rows, err := db.Query(sqlQuery, args...)
-	if err != nil {
-		fmt.Errorf("db err: %v \n", err)
-		return nil, err
+	wodsRows, wodsErr := db.Query(sqlWodsQuery, wodsArgs...)
+	if wodsErr != nil {
+		fmt.Errorf("wods db err: %v", wodsErr)
+		return nil, wodsErr
 	}
 
-	var wodActivities = make(map[int][]data.Activity)
-	defer rows.Close()
-	for rows.Next() {
+	defer wodsRows.Close()
+	for wodsRows.Next() {
 		var wod data.WOD
-		var (
-			ActivityID        *int64
-			ActivityDate      *int64
-			ActivityTimeTaken *int64
-			ActivityMEPs      *int64
-			ActivityExertion  *int64
-			ActivityNotes     *string
-			ActivityScore     *int
-		)
 
-		if err := rows.Scan(
-			&wod.ID,
-			&wod.Source,
-			&wod.CreationT,
-			&wod.Exercise,
-			&wod.Picture,
-			pq.Array(&wod.Type),
-			&wod.CreatedBy,
-			&ActivityID,
-			&ActivityDate,
-			&ActivityTimeTaken,
-			&ActivityMEPs,
-			&ActivityExertion,
-			&ActivityNotes,
-			&ActivityScore,
+		if err := wodsRows.Scan(
+			&wod.ID, &wod.Source, &wod.CreationT, &wod.Exercise, &wod.Picture, pq.Array(&wod.Type), &wod.CreatedBy,
 		); err != nil {
-			fmt.Errorf("scan err: %v \n", err)
+			fmt.Errorf("wods scan err: %v", err)
 			return nil, err
 		}
 
-		// if wod has activities associated add them to list and store wod
-		// else just store the wod
-		if ActivityID != nil {
-			activity := data.Activity{
-				ID: *ActivityID,
-				ActivityInput: data.ActivityInput{
-					Date:      *ActivityDate,
-					TimeTaken: *ActivityTimeTaken,
-					MEPs:      ActivityMEPs,
-					Exertion:  ActivityExertion,
-					Notes:     ActivityNotes,
-					Score:     ActivityScore,
-				},
-			}
+		wodIDs = append(wodIDs, wod.ID)
+		dbWODs = append(dbWODs, wod)
+	}
 
-			// if we've already got an array of activities for the current WOD append to it
-			// and don't store duplicate wod
-			// else create the array of activities and store wod
-			if activities, ok := wodActivities[wod.ID]; ok {
-				wodActivities[wod.ID] = append(activities, activity)
-			} else {
-				wodActivities[wod.ID] = []data.Activity{activity}
-				dbWODs = append(dbWODs, wod)
-			}
+	activityQuery := psql.
+		Select(activityColumns...).
+		From("activity").
+		Where(sq.Eq{"activity.user_id": userID}).
+		Where(sq.Eq{"activity.wod_id": wodIDs})
+	sqlActivityQuery, activityArgs, _ := activityQuery.ToSql()
+
+	activityRows, activityErr := db.Query(sqlActivityQuery, activityArgs...)
+	if activityErr != nil {
+		fmt.Errorf("activity db err: %v", activityErr)
+		return nil, activityErr
+	}
+
+	var wodActivities = make(map[int][]data.Activity)
+	defer activityRows.Close()
+	for activityRows.Next() {
+		var activity data.Activity
+
+		if err := activityRows.Scan(&activity.ID, &activity.WODID, &activity.Date, &activity.TimeTaken, &activity.MEPs, &activity.Exertion, &activity.Notes, &activity.Score); err != nil {
+			fmt.Errorf("activity scan err: %v", err)
+			return nil, err
+		}
+
+		// if we've already got an array of activities for the current WOD append to it
+		// and don't store duplicate wod
+		// else create the array of activities and store wod
+		if activities, ok := wodActivities[*activity.WODID]; ok {
+			wodActivities[*activity.WODID] = append(activities, activity)
 		} else {
-			dbWODs = append(dbWODs, wod)
+			wodActivities[*activity.WODID] = []data.Activity{activity}
 		}
 	}
 

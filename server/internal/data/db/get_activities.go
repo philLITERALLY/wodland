@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 
 	sq "github.com/Masterminds/squirrel"
 	_ "github.com/heroku/x/hmetrics/onload"
@@ -52,6 +53,7 @@ func GetActivities(db *sql.DB, filters *data.ActivityFilter, userID int) ([]data
 			&activity.ID, &activity.Date, &activity.TimeTaken, &activity.Score, &activity.MEPs, &activity.Exertion, &activity.Notes,
 			&wod.ID, &wod.Source, &wod.CreationT, &wod.Exercise, &wod.Picture, pq.Array(&wod.Type), &wod.CreatedBy,
 		); err != nil {
+			fmt.Errorf("activities err: %v \n", err)
 			return nil, err
 		}
 

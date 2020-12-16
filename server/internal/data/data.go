@@ -31,20 +31,20 @@ type User struct {
 
 // WeekStats are the stats for a given week
 type WeekStats struct {
-	Year      int `json:"year"`
-	Week      int `json:"week"`
-	WODs      int `json:"wods"`
-	TimeTaken int `json:"timeTaken"`
+	Year      int  `json:"year"`
+	Week      int  `json:"week"`
+	WODs      int  `json:"wods"`
+	TimeTaken int  `json:"timeTaken"`
 	MEPs      *int `json:"meps"`
 }
 
 // WODInput is the data required to create a WOD
 type WODInput struct {
-	Source    *string `json:"source"`
-	CreationT int64   `json:"creationT"`
-	Exercise  *string `json:"exercise"`
-	Picture   *string `json:"picture"`
-	Type      []string  `json:"type"`
+	Source    *string  `json:"source"`
+	CreationT int64    `json:"creationT"`
+	Exercise  *string  `json:"exercise"`
+	Picture   *string  `json:"picture"`
+	Type      []string `json:"type"`
 }
 
 // WOD is the data object returned from the WODs endpoint
@@ -81,23 +81,23 @@ type CreateWOD struct {
 
 // WODFilter is used to model filterable aspects for WODs
 type WODFilter struct {
-	WODID    *int    `json:"wodID"`
-	Source    string    `json:"source"`
-	StartDate time.Time `json:"startDate"`
-	EndDate   time.Time `json:"endDate"`
+	WODID            *int      `json:"wodID"`
+	Source           string    `json:"source"`
+	StartDate        time.Time `json:"startDate"`
+	EndDate          time.Time `json:"endDate"`
 	IncludeExercise  []string  `json:"includeExercise"`
 	ExcludeExercise  []string  `json:"excludeExercise"`
-	Picture   *bool     `json:"picture"`
-	Type      string    `json:"type"`
-	Tried     *bool     `json:"tried"`
-	BestTimeMin *int    `json:"bestTimeMin"`
-	BestTimeMax *int    `json:"bestTimeMax"`
-	BestScoreLow *int    `json:"bestScoreLow"`
-	BestScoreHigh *int    `json:"bestScoreHigh"`
-	BestMEPSLow *int    `json:"bestMEPSLow"`
-	BestMEPSHigh *int    `json:"bestMEPSHigh"`
-	BestExertionLow *int    `json:"bestExertionLow"`
-	BestExertionHigh *int    `json:"bestExertionHigh"`
+	Picture          *bool     `json:"picture"`
+	Type             string    `json:"type"`
+	Tried            *bool     `json:"tried"`
+	BestTimeMin      *int      `json:"bestTimeMin"`
+	BestTimeMax      *int      `json:"bestTimeMax"`
+	BestScoreLow     *int      `json:"bestScoreLow"`
+	BestScoreHigh    *int      `json:"bestScoreHigh"`
+	BestMEPSLow      *int      `json:"bestMEPSLow"`
+	BestMEPSHigh     *int      `json:"bestMEPSHigh"`
+	BestExertionLow  *int      `json:"bestExertionLow"`
+	BestExertionHigh *int      `json:"bestExertionHigh"`
 }
 
 // ActivityFilter is used to model filterable aspects for Activities
