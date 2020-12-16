@@ -9,9 +9,9 @@ import { elementScrollIntoView } from 'seamless-scroll-polyfill';
 
 import * as actionCreators from '../../actions';
 import { DefaultSpinner } from '../shared/spinner';
-import { DropDown, TextField, BoolRadioButtons, DateRange, TimeRange, TextFieldRange } from '../shared/forms';
+import { DropDown, TextField, DateRange, TimeRange, TextFieldRange } from '../shared/forms';
 import WODCard from '../shared/wod-card';
-import { WODTypeOpts } from '../../constants';
+import { BoolOpts, WODTypeOpts } from '../../constants';
 
 import './search-wods.scss';
 
@@ -70,8 +70,8 @@ function SearchWODs(props) {
           {TextField(register, 'Source', 'source', 'text', 'Where was the WOD from? e.g. Crossfit, Berserk Online, The Girls, Hero WOD')}
           {TextField(register, 'Include Exercises', 'includeExercise', 'text', 'Enter any exercises to include (separate with comma)')}
           {TextField(register, 'Exclude Exercises', 'excludeExercise', 'text', 'Enter any exercises to exclude (separate with comma)')}
-          { /* BoolRadioButtons(register, setValue, 'Picture Included', 'picture') */ }
-          {BoolRadioButtons(register, setValue, 'Attempted Before', 'tried')}
+          { /* DropDown(register, 'Picture Included', 'picture', BoolOpts) */ }
+          {DropDown(register, 'Attempted Before', 'tried', BoolOpts)}
         </Card.Body>
       </Accordion.Collapse>
     </Card>

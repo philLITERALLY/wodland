@@ -19,6 +19,12 @@ export const ActionTypes = {
   ADDED_ACTIVITIES: 'ADDED_ACTIVITIES',
 };
 
+export const BoolOpts = [
+  <option value="" key="--">--</option>,
+  <option key="Yes" value="true">Yes</option>,
+  <option key="No" value="false">No</option>,
+];
+
 export const WODTypeOpts = [
   <option value="" key="--">--</option>,
   <option key="EMOM">EMOM</option>,

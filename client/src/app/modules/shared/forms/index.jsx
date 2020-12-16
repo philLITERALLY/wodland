@@ -145,43 +145,6 @@ export const DropDown = (register, label, name, options, note, required = false)
   </Form.Group>
 );
 
-export const BoolRadioButtons = (register, setValue, label, name, note) => (
-  <Form.Group controlId={name}>
-    <Form.Label>{label}</Form.Label>
-    <input name={name} type="hidden" ref={register} />
-    <div className="flexContainer">
-      <div className="rightHalfMargin">
-        <Form.Check
-          name={name}
-          onClick={() => setValue(name, '')}
-          type="radio"
-          label="N/A"
-          id={`${name}NA`}
-        />
-      </div>
-      <div className="rightHalfMargin">
-        <Form.Check
-          name={name}
-          onClick={() => setValue(name, false)}
-          type="radio"
-          label="No"
-          id={`${name}NO`}
-        />
-      </div>
-      <div className="rightHalfMargin">
-        <Form.Check
-          name={name}
-          onClick={() => setValue(name, true)}
-          type="radio"
-          label="Yes"
-          id={`${name}YES`}
-        />
-      </div>
-    </div>
-    {note && <Form.Text className="text-muted">{note}</Form.Text>}
-  </Form.Group>
-);
-
 export const DateRange = (
   register, label, name, leftName, rightName, leftDate, rightDate, note
 ) =>
