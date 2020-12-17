@@ -2,13 +2,32 @@
   display: grid;
 }
 
-.cardContainer {
+.cardContainerLeft {
   border-top: 0 !important;
   border-top-left-radius: 0 !important;
+
+  .cardHeaderLeft {
+    background-color: #61dafb !important;
+    color: #ffffff;
+    font-weight: 700;
+
+    border-top-left-radius: 0 !important;
+  }
+}
+
+.cardContainerMid {
+  border-top: 0 !important;
+}
+
+.cardContainerRight {
+  border-top: 0 !important;
   border-top-right-radius: 0 !important;
 
-  .cardHeader {
-    border-top-left-radius: 0 !important;
+  .cardHeaderRight {
+    background-color: #61dafb !important;
+    color: #ffffff;
+    font-weight: 700;
+
     border-top-right-radius: 0 !important;
   }
 }

@@ -22,6 +22,7 @@ function BestStats(props) {
   const tick = watch('rangeType'); // weeks/months
 
   let cardHeader; let cardValue; let caseWODs;
+  let cardStyle; let headerStyle;
   const chartData = [];
   let domain = [];
   let tickFormat = (value) => `${Math.round(value)}`;
@@ -40,6 +41,9 @@ function BestStats(props) {
       }
 
       domain = [0, caseWODs.wods];
+
+      cardStyle = 'cardContainerLeft';
+      headerStyle = 'cardHeaderLeft';
       break;
     case 'Time':
       caseWODs = _.maxBy(weeklyStats, 'timeTaken');
@@ -53,6 +57,9 @@ function BestStats(props) {
 
       domain = [0, caseWODs.timeTaken / 60];
       tickFormat = (value) => `${Math.round(value)}\nmins`;
+
+      cardStyle = 'cardContainerMid';
+      headerStyle = 'cardHeader';
       break;
     case 'MEPs':
       caseWODs = _.maxBy(weeklyStats, 'meps');
@@ -65,16 +72,21 @@ function BestStats(props) {
       }
 
       domain = [0, caseWODs.meps];
+
+      cardStyle = 'cardContainerRight';
+      headerStyle = 'cardHeaderRight';
       break;
     default:
       cardHeader = 'Error?!';
       cardValue = 'Error?!';
+      cardStyle = '';
+      headerStyle = '';
       break;
   }
 
   return (
-    <Card className="cardContainer">
-      <Card.Header className="cardHeader">
+    <Card className={cardStyle}>
+      <Card.Header className={headerStyle}>
         <div className="cardContent">
           <b>{cardHeader}</b>
           {cardValue}

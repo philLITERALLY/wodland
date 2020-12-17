@@ -19,7 +19,7 @@ clientsClaim();
 // eslint-disable-next-line no-underscore-dangle
 precacheAndRoute(self.__WB_MANIFEST);
 
-const cacheName = 'v1.1';
+const cacheName = 'v1.2';
 
 self.addEventListener('install', event => {
   event.waitUntil(
