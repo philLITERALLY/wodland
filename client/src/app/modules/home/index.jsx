@@ -99,7 +99,7 @@ class Home extends React.Component {
     return (
       <div>
         <h1 className="header">
-          Hey123 {localStorage.getItem('username')}
+          Hey {localStorage.getItem('username')}
         </h1>
         { fetchedWeeklyStats ? this.renderWeeklyStats() : StyledSpinner }
       </div>
