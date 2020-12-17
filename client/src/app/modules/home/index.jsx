@@ -98,8 +98,9 @@ class Home extends React.Component {
 
     return (
       <div>
-        <h1 className="header">
-          {`Hey ${localStorage.getItem('username')}`}
+        <h1 className="h1Header">
+          <p>Hey</p>
+          <p>{localStorage.getItem('username')}</p>
         </h1>
         { fetchedWeeklyStats ? this.renderWeeklyStats() : StyledSpinner }
       </div>
