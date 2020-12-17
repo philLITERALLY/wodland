@@ -87,7 +87,7 @@ class Diary extends React.Component {
 
     const sortedActivities = _.sortBy(activitiesToday, 'date');
 
-    return activitiesToday.length === 0 ? <h2 className="noActivities">No WODs</h2> : (
+    return activitiesToday.length === 0 ? <h2 className="noActivities">No Activities</h2> : (
       <Timeline>
         {sortedActivities.map((activity) => this.renderActivity(activity))}
       </Timeline>
