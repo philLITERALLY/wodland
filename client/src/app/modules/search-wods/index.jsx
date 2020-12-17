@@ -20,7 +20,7 @@ function SearchWODs(props) {
   const { getWODs, clearWODs, fetchingWODs, fetchedWODs, wods, history } = props;
   const { register, handleSubmit, watch, getValues, setValue } = useForm();
 
-  const initStartDate = new Date(2014, 11, 13).toISOString().slice(0, 10);
+  const initStartDate = new Date(2014, 10, 4).toISOString().slice(0, 10);
   const initEndDate = new Date().toISOString().slice(0, 10);
 
   const onSubmit = data => {
@@ -36,7 +36,7 @@ function SearchWODs(props) {
         case 'endDate':
           // if endDate is different than initial, use end of that day
           if (value !== initEndDate) {
-            newResult[name] = new Date(new Date(value).getTime() + 86400000);
+            newResult[name] = new Date(new Date(value).getTime() + 86399999);
           }
           return newResult;
         case 'bestTimeMinMins':
