@@ -9,7 +9,7 @@ import (
 )
 
 // CreateWOD will create a WOD (and add an activity if supplied)
-func CreateWOD(db *sql.DB, WOD data.CreateWOD, userID int) error {
+func CreateWOD(dataSource *sql.DB, WOD data.CreateWOD, userID int) error {
 	typeStr := fmt.Sprintf("{%s}", WOD.Type[0])
 	wodQuery := psql.
 		Insert("wod").
@@ -19,7 +19,7 @@ func CreateWOD(db *sql.DB, WOD data.CreateWOD, userID int) error {
 	sqlWODQuery, wodArgs, _ := wodQuery.ToSql()
 
 	var wodID int
-	wodErr := db.QueryRow(sqlWODQuery, wodArgs...).Scan(&wodID)
+	wodErr := dataSource.QueryRow(sqlWODQuery, wodArgs...).Scan(&wodID)
 	if wodErr != nil {
 		return wodErr
 	}
@@ -28,7 +28,7 @@ func CreateWOD(db *sql.DB, WOD data.CreateWOD, userID int) error {
 		activity := WOD.ActivityInput
 		activity.WODID = &wodID
 
-		activityErr := CreateActivity(db, *activity, userID)
+		activityErr := CreateActivity(dataSource, *activity, userID)
 		if activityErr != nil {
 			return activityErr
 		}

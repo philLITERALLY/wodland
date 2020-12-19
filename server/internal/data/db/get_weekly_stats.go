@@ -10,7 +10,7 @@ import (
 )
 
 // GetWeeklyStats will get and return weekly stats for a logged in user
-func GetWeeklyStats(db *sql.DB, userID int) ([]data.WeekStats, error) {
+func GetWeeklyStats(dataSource *sql.DB, userID int) ([]data.WeekStats, error) {
 	var dbWeeklyStats []data.WeekStats
 
 	statsQuery := psql.
@@ -21,7 +21,7 @@ func GetWeeklyStats(db *sql.DB, userID int) ([]data.WeekStats, error) {
 		OrderBy("year, week")
 	sqlStatsQuery, args, _ := statsQuery.ToSql()
 
-	rows, err := db.Query(sqlStatsQuery, args...)
+	rows, err := dataSource.Query(sqlStatsQuery, args...)
 	if err != nil {
 		return dbWeeklyStats, err
 	}

@@ -34,7 +34,7 @@ var activityColumns = []string{
 }
 
 // GetWODs will get and return WODs
-func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error) {
+func GetWODs(dataSource *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error) {
 	var wodIDs = []int{}
 	var dbWODs = []data.WOD{}
 
@@ -49,7 +49,7 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 	wodsQuery = wodsQuery.Limit(10)
 	sqlWodsQuery, wodsArgs, _ := wodsQuery.ToSql()
 
-	wodsRows, wodsErr := db.Query(sqlWodsQuery, wodsArgs...)
+	wodsRows, wodsErr := dataSource.Query(sqlWodsQuery, wodsArgs...)
 	if wodsErr != nil {
 		fmt.Errorf("wods db err: %v", wodsErr)
 		return nil, wodsErr
@@ -70,37 +70,9 @@ func GetWODs(db *sql.DB, filters *data.WODFilter, userID int) ([]data.WOD, error
 		dbWODs = append(dbWODs, wod)
 	}
 
-	activityQuery := psql.
-		Select(activityColumns...).
-		From("activity").
-		Where(sq.Eq{"activity.user_id": userID}).
-		Where(sq.Eq{"activity.wod_id": wodIDs})
-	sqlActivityQuery, activityArgs, _ := activityQuery.ToSql()
-
-	activityRows, activityErr := db.Query(sqlActivityQuery, activityArgs...)
-	if activityErr != nil {
-		fmt.Errorf("activity db err: %v", activityErr)
-		return nil, activityErr
-	}
-
-	var wodActivities = make(map[int][]data.Activity)
-	defer activityRows.Close()
-	for activityRows.Next() {
-		var activity data.Activity
-
-		if err := activityRows.Scan(&activity.ID, &activity.WODID, &activity.Date, &activity.TimeTaken, &activity.MEPs, &activity.Exertion, &activity.Notes, &activity.Score); err != nil {
-			fmt.Errorf("activity scan err: %v", err)
-			return nil, err
-		}
-
-		// if we've already got an array of activities for the current WOD append to it
-		// and don't store duplicate wod
-		// else create the array of activities and store wod
-		if activities, ok := wodActivities[*activity.WODID]; ok {
-			wodActivities[*activity.WODID] = append(activities, activity)
-		} else {
-			wodActivities[*activity.WODID] = []data.Activity{activity}
-		}
+	wodActivities, err := GetActivitiesForWODIDs(dataSource, userID, wodIDs)
+	if err != nil {
+		return nil, err
 	}
 
 	// loop through stored wods and add any associated activities
