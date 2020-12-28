@@ -33,6 +33,12 @@ export const TextField = (register, label, name, type, note, required = false) =
         rows={type === 'textarea' ? 10 : undefined}
         autoComplete="off"
         max={max}
+        onChange={(event) => {
+          if (type === 'datetime-local') {
+            // eslint-disable-next-line no-param-reassign
+            event.target.value = event.target.value.substr(0, 16);
+          }
+        }}
       />
       {note && <Form.Text className="text-muted">{note}</Form.Text>}
     </Form.Group>
